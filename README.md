@@ -5,4 +5,4 @@ Nama Anggota
 2. Baskoro Seno Aji (2341720063)
 3. Kevin Bramasta Arvyto Wardhana (2341720233)
 
-Sistem Pengmabilan Sampah
+Sistem Pengambilan Sampah
