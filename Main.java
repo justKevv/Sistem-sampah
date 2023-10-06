@@ -2,11 +2,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String name, address, number;
+        String name, address, number, member;
         int chooseTrash;
         int weightTrash, quantity, distance;
         int totalTrash, shipping, discount, finalPrice;
-        
 
         System.out.println("==============================================");
         System.out.println("          WELCOME TO TRASH PICKUP             ");
@@ -17,6 +16,8 @@ public class Main {
         address = sc.nextLine();
         System.out.print("Enter your phone number: ");
         number = sc.nextLine();
+        System.out.print("Are you a member or not (yes/no) : ");
+        member = sc.nextLine();
 
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -58,6 +59,13 @@ public class Main {
                         shipping = distance * 10000;
                         discount = quantity * 1500;
 
+                        if(member.equalsIgnoreCase("yes")){
+                            discount += 2000;
+                        }else {
+                            discount += 0;
+                        }
+                            
+
                         finalPrice = (totalTrash + shipping) - discount;
 
                         System.out.print("\033[H\033[2J");
@@ -91,6 +99,12 @@ public class Main {
                         totalTrash = weightTrash * 6000;
                         shipping = distance * 10000;
                         discount = quantity * 4000;
+
+                        if(member.equalsIgnoreCase("yes")){
+                            discount += 2000;
+                        }else {
+                            discount += 0;
+                        }
 
                         finalPrice = (totalTrash + shipping) - discount;
 
@@ -126,6 +140,12 @@ public class Main {
                         totalTrash = weightTrash * 4000;
                         shipping = distance * 10000;
                         discount = quantity * 3000;
+
+                        if(member.equalsIgnoreCase("yes")){
+                            discount += 2000;
+                        }else {
+                            discount += 0;
+                        }
 
                         finalPrice = (totalTrash + shipping) - discount;
 
@@ -179,6 +199,12 @@ public class Main {
                         shipping = distance * 10000;
                         discount = quantity * 500;
 
+                        if(member.equalsIgnoreCase("yes")){
+                            discount += 2000;
+                        }else {
+                            discount += 0;
+                        }
+
                         finalPrice = (totalTrash + shipping) - discount;
 
                         System.out.print("\033[H\033[2J");
@@ -213,6 +239,12 @@ public class Main {
                         shipping = distance * 10000;
                         discount = quantity * 250;
 
+                        if(member.equalsIgnoreCase("yes")){
+                            discount += 2000;
+                        }else {
+                            discount += 0;
+                        }
+
                         finalPrice = (totalTrash + shipping) - discount;
 
                         System.out.print("\033[H\033[2J");
@@ -246,6 +278,12 @@ public class Main {
                         totalTrash = weightTrash * 200;
                         shipping = distance * 10000;
                         discount = quantity * 100;
+
+                        if(member.equalsIgnoreCase("yes")){
+                            discount += 2000;
+                        }else {
+                            discount += 0;
+                        }
 
                         finalPrice = (totalTrash + shipping) - discount;
 
