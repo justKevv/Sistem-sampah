@@ -4,10 +4,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String[] role = { "", "Admin", "User" };
+        String[] role = { "Admin", "User" };
 
-        String[] username = new String[20];
-        String[] password = new String[20];
+        String[] username = new String[10];
+        String[] password = new String[10];
 
         // Username
         username[0] = "admin";
@@ -21,7 +21,7 @@ public class Main {
         password[2] = "seno1";
         password[3] = "adzinnn";
 
-        String[][] data = new String[10][20];
+        String[][] data = new String[10][10];
 
         // Name
         data[0][0] = "admin";
@@ -48,10 +48,10 @@ public class Main {
         data[3][3] = "no";
 
         // Role
-        data[4][0] = role[1];
-        data[4][1] = role[2];
-        data[4][2] = role[2];
-        data[4][3] = role[2];
+        data[4][0] = role[0];
+        data[4][1] = role[1];
+        data[4][2] = role[1];
+        data[4][3] = role[1];
 
         int counterRegister = 4;
 
@@ -62,7 +62,7 @@ public class Main {
         points[3] = 500;
 
         String[] home = { "", "Donate Trash", "Voucher", "History", "Logout" };
-        String[] admin = { "", "Account", "Trash List", "Back" };
+        String[] admin = { "", "Account", "Trash List", "Logout" };
         String[] menuVoucher = { "", "Redeem", "Points", "Back" };
         String[] typeTrash = { "", "Inorganic Trash", "Organic Trash" };
 
@@ -83,7 +83,8 @@ public class Main {
         int weightTrash, quantity, distance;
         int totalTrash, shipping, discount, finalPrice;
 
-        int choice = 0, choice1, choice2, choice3, choice4;
+        int choice = 0, choice1, choice2, choice3;
+        int choiceAdmin;
         int noUser = 0;
 
         do {
@@ -199,6 +200,8 @@ public class Main {
 
                     noUser = counterRegister;
 
+                    data[4][counterRegister] = role[1];
+
                     counterRegister++;
 
                     System.out.print("\033[H\033[2J");
@@ -219,9 +222,9 @@ public class Main {
 
             System.out.print("\033[H\033[2J");
             System.out.flush();
-            // ADMIN
-            if (username[noUser].equals("admin")) {
 
+            // ADMIN MENU
+            if (data[4][noUser].equals("Admin")) {
                 do {
                     System.out.println("+------------------------------------------+");
                     System.out.println("Welcome, " + username[noUser]);
@@ -229,12 +232,12 @@ public class Main {
                     System.out.println();
                     System.out.println("What do you want to do today?");
                     for (int i = 1; i < admin.length; i++) {
-                        System.out.println(i + ". " + home[i]);
+                        System.out.println(i + ". " + admin[i]);
                     }
                     /*
                      * 1. Account
                      * 2. Trash List
-                     * 3. Back
+                     * 3. Logout
                      */
                     System.out.print("--> ");
                     choice1 = sc.nextInt();
@@ -249,12 +252,12 @@ public class Main {
                         System.out.println();
                         System.out.println("What do you want to do today?");
                         for (int i = 1; i < admin.length; i++) {
-                            System.out.println(i + ". " + home[i]);
+                            System.out.println(i + ". " + admin[i]);
                         }
                         /*
                          * 1. Account
                          * 2. Trash List
-                         * 3. Back
+                         * 3. Logout
                          */
                         System.out.print("--> ");
                         choice1 = sc.nextInt();
@@ -265,19 +268,36 @@ public class Main {
 
                     switch (choice1) {
                         case 1:
-                            System.out.println("+------------------------------------------+");
-                            System.out.printf("%-10s | %-20s | %-20s | %-10s%n", "No", "Username", "Password", "Role");
-                            System.out.println("+------------------------------------------+");
+                            do {
 
-                            for (int i = 1; i < username.length; i++) {
-                                System.out.printf("%-10s | %-20s | %-20s | %-10s%n", i, username[i], password[i],
-                                        role[i]);
-                            }
+                                System.out.println(
+                                        "+------------------------------------------------------------------+");
+                                System.out.printf("%-10s | %-20s | %-20s | %-10s%n", "No", "Username", "Password",
+                                        "Role");
+                                System.out.println(
+                                        "+------------------------------------------------------------------+");
 
+                                for (int i = 0; i < counterRegister; i++) {
+                                    System.out.printf("%-10s | %-20s | %-20s | %-10s%n", i, username[i], password[i],
+                                            data[4][i]);
+                                }
+                                System.out.print("--> ");
+                                choiceAdmin = sc.nextInt();
+
+                                System.out.print("\033[H\033[2J");
+                                System.out.flush();
+
+                            } while (choiceAdmin != 0);
+
+                        case 2:
+                            break;
+                        case 3:
+                            break;
                     }
-                } while (!(choice1 == 4));
+                } while (choice1 != 3);
             } else {
-                // USER
+
+                // USER MENU
                 do {
                     System.out.println("+------------------------------------------+");
                     System.out.println("Welcome, " + username[noUser] + "! \t\t" + "Point : " + points[noUser]);
@@ -456,7 +476,7 @@ public class Main {
                         case 2:
                             do {
                                 System.out.println("+------------------------------------------+");
-                                System.out.println("|\t\t VOUCHERS \t\t|");
+                                System.out.println("|\t\t VOUCHERS \t\t   |");
                                 System.out.println("+------------------------------------------+");
                                 System.out.println("Points : " + points[noUser]);
                                 System.out.println("+------------------------------------------+");
@@ -466,6 +486,9 @@ public class Main {
                                 }
                                 System.out.print("--> ");
                                 choice3 = sc.nextInt();
+
+                                System.out.print("\033[H\033[2J");
+                                System.out.flush();
 
                                 switch (choice3) {
                                     case 1:
