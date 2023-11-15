@@ -321,6 +321,9 @@ public class Main {
 
                                         for (int i = 0; i < dataAccounts.length; i++) {
                                             if (choiceEdit.equalsIgnoreCase(dataAccounts[i])) {
+                                                System.out.println("+-----------------------------------+");
+                                                System.out.println("\t    Edit " + dataAccounts[i]);
+                                                System.out.println("+-----------------------------------+");
                                                 System.out.println("Enter new " + dataAccounts[i]);
                                                 System.out.print("--> ");
                                                 data[i][choiceAdmin] = sc.nextLine();
@@ -329,18 +332,6 @@ public class Main {
 
                                         System.out.print("\033[H\033[2J");
                                         System.out.flush();
-
-                                        // if (choiceEdit != 0) {
-                                        //     System.out.println("+-----------------------------------+");
-                                        //     System.out.println("\t    Edit " + dataAccounts[choiceEdit - 1]);
-                                        //     System.out.println("+-----------------------------------+");
-                                        //     System.out.println("Enter new " + dataAccounts[choiceEdit - 1]);
-                                        //     System.out.print("--> ");
-                                        //     data[choiceEdit - 1][choiceAdmin] = sc.nextLine();
-
-                                        //     System.out.print("\033[H\033[2J");
-                                        //     System.out.flush();
-                                        // }
 
                                     } while (!choiceEdit.equals("0"));
                                 }
