@@ -10,50 +10,59 @@ public class Main {
         String[] password = new String[10];
 
         // Username
-        username[0] = "admin";
+        username[0] = "";
         username[1] = "kevv";
         username[2] = "seno1";
         username[3] = "adzinnn";
+        username[4] = "admin";
 
         // Password
-        password[0] = "admin";
+        password[0] = "";
         password[1] = "kevv";
         password[2] = "seno1";
         password[3] = "adzinnn";
+        password[4] = "admin";
 
         String[][] data = new String[10][10];
 
         // Name
-        data[0][0] = "admin";
+        data[0][0] = "";
         data[0][1] = "Kevin Bramasta";
         data[0][2] = "Baskoro Seno";
         data[0][3] = "Ahmad Adzin";
+        data[0][4] = "Admin";
 
         // Address
         data[1][0] = "default";
         data[1][1] = "Sukun";
         data[1][2] = "Polehan";
         data[1][3] = "Gadang";
+        data[1][4] = "-";
 
         // Number
         data[2][0] = "default";
         data[2][1] = "08123456789";
         data[2][2] = "08123456789";
         data[2][3] = "08123456789";
+        data[2][4] = "-";
 
         // Member
         data[3][0] = "default";
         data[3][1] = "yes";
         data[3][2] = "yes";
         data[3][3] = "no";
+        data[3][4] = "-";
 
         // Role
         data[4][0] = role[0];
         data[4][1] = role[1];
         data[4][2] = role[1];
         data[4][3] = role[1];
+        data[4][4] = role[0];
 
-        int counterRegister = 4;
+        int counterRegister = 5;
+
+        String[] dataAccounts = { "Name", "Address", "Number", "Member" };
 
         int[] points = new int[20];
         points[0] = 0;
@@ -84,7 +93,8 @@ public class Main {
         int totalTrash, shipping, discount, finalPrice;
 
         int choice = 0, choice1, choice2, choice3;
-        int choiceAdmin;
+        int choiceAdmin = 0;
+        String choiceEdit;
         int noUser = 0;
 
         do {
@@ -269,7 +279,7 @@ public class Main {
                     switch (choice1) {
                         case 1:
                             do {
-
+                                System.out.println("Choose which account you want to access.");
                                 System.out.println(
                                         "+------------------------------------------------------------------+");
                                 System.out.printf("%-10s | %-20s | %-20s | %-10s%n", "No", "Username", "Password",
@@ -277,15 +287,63 @@ public class Main {
                                 System.out.println(
                                         "+------------------------------------------------------------------+");
 
-                                for (int i = 0; i < counterRegister; i++) {
+                                for (int i = 1; i < counterRegister; i++) {
                                     System.out.printf("%-10s | %-20s | %-20s | %-10s%n", i, username[i], password[i],
                                             data[4][i]);
                                 }
+                                System.out.println(
+                                        "+------------------------------------------------------------------+");
+                                System.out.println("Use 0 to go back to main menu.");
                                 System.out.print("--> ");
                                 choiceAdmin = sc.nextInt();
+                                sc.nextLine();
 
                                 System.out.print("\033[H\033[2J");
                                 System.out.flush();
+
+                                if (choiceAdmin != 0) {
+                                    do {
+                                        System.out
+                                                .println("+---------------------------------------------------------+");
+                                        for (int i = 0; i < dataAccounts.length; i++) {
+                                            System.out.println(
+                                                    (i + 1) + ". " + dataAccounts[i] + ":\t" + data[i][choiceAdmin]);
+                                        }
+                                        System.out
+                                                .println("+--------------------------------------------------------+");
+                                        System.out.println("Use 0 to go back to main menu.");
+                                        System.out.println("Which one you want to edit : ");
+                                        System.out.print("--> ");
+                                        choiceEdit = sc.nextLine();
+
+                                        System.out.print("\033[H\033[2J");
+                                        System.out.flush();
+
+                                        for (int i = 0; i < dataAccounts.length; i++) {
+                                            if (choiceEdit.equalsIgnoreCase(dataAccounts[i])) {
+                                                System.out.println("Enter new " + dataAccounts[i]);
+                                                System.out.print("--> ");
+                                                data[i][choiceAdmin] = sc.nextLine();
+                                            }
+                                        }
+
+                                        System.out.print("\033[H\033[2J");
+                                        System.out.flush();
+
+                                        // if (choiceEdit != 0) {
+                                        //     System.out.println("+-----------------------------------+");
+                                        //     System.out.println("\t    Edit " + dataAccounts[choiceEdit - 1]);
+                                        //     System.out.println("+-----------------------------------+");
+                                        //     System.out.println("Enter new " + dataAccounts[choiceEdit - 1]);
+                                        //     System.out.print("--> ");
+                                        //     data[choiceEdit - 1][choiceAdmin] = sc.nextLine();
+
+                                        //     System.out.print("\033[H\033[2J");
+                                        //     System.out.flush();
+                                        // }
+
+                                    } while (!choiceEdit.equals("0"));
+                                }
 
                             } while (choiceAdmin != 0);
 
@@ -294,6 +352,7 @@ public class Main {
                         case 3:
                             break;
                     }
+
                 } while (choice1 != 3);
             } else {
 
