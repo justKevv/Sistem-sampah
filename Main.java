@@ -5,6 +5,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         String[] role = { "Admin", "User" };
+        String[] accounts = { "Username", "Password" };
+        String[] dataAccounts = { "Name", "Address", "Number", "Member" };
 
         String[] username = new String[10];
         String[] password = new String[10];
@@ -62,8 +64,6 @@ public class Main {
 
         int counterRegister = 5;
 
-        String[] dataAccounts = { "Name", "Address", "Number", "Member" };
-
         int[] points = new int[20];
         points[0] = 0;
         points[1] = 300;
@@ -86,6 +86,8 @@ public class Main {
         String[][] TrashPicker = { null, inOrganicTrash, organicTrash };
         int[][] pricePicker = { null, priceInorganic, priceOrganic };
         int[][] valuePicker = { null, valueInorganic, valueOrganic };
+
+        String[][] accountPicker = { username, password };
 
         String inputUsername, inputPassword;
         int chooseTrash;
@@ -305,9 +307,13 @@ public class Main {
                                     do {
                                         System.out
                                                 .println("+---------------------------------------------------------+");
+                                        for (int i = 0; i < accounts.length; i++) {
+                                            System.out.println(accounts[i] + "\t: " + accountPicker[i][choiceAdmin]);
+                                        }
+                                        System.out
+                                                .println("+---------------------------------------------------------+");
                                         for (int i = 0; i < dataAccounts.length; i++) {
-                                            System.out.println(
-                                                    (i + 1) + ". " + dataAccounts[i] + ":\t" + data[i][choiceAdmin]);
+                                            System.out.println(dataAccounts[i] + "\t: " + data[i][choiceAdmin]);
                                         }
                                         System.out
                                                 .println("+--------------------------------------------------------+");
@@ -320,13 +326,38 @@ public class Main {
                                         System.out.flush();
 
                                         for (int i = 0; i < dataAccounts.length; i++) {
-                                            if (choiceEdit.equalsIgnoreCase(dataAccounts[i])) {
+                                            boolean isDataAccount = choiceEdit.equalsIgnoreCase(dataAccounts[i]);
+                                            if (isDataAccount) {
                                                 System.out.println("+-----------------------------------+");
                                                 System.out.println("\t    Edit " + dataAccounts[i]);
                                                 System.out.println("+-----------------------------------+");
                                                 System.out.println("Enter new " + dataAccounts[i]);
                                                 System.out.print("--> ");
                                                 data[i][choiceAdmin] = sc.nextLine();
+                                            }
+                                        }
+
+                                        for (int i = 0; i < accountPicker.length; i++) {
+                                            boolean isAccount = choiceEdit.equalsIgnoreCase(accounts[i]);
+                                            if (isAccount) {
+                                                System.out.println("+-------------------------------------------+");
+                                                System.out.println("Are you sure you want to edit the "
+                                                        + accounts[i] + " ?");
+                                                System.out.println("+-------------------------------------------+");
+                                                System.out.println("Warning: this will lead user to unable to access the account.");
+                                                System.out.print("yes/no : ");
+                                                choiceEdit = sc.nextLine();
+
+                                                if (choiceEdit.equalsIgnoreCase("yes")) {
+                                                    System.out.println("+-----------------------------------+");
+                                                    System.out.println("\t    Edit " + accounts[i]);
+                                                    System.out.println("+-----------------------------------+");
+                                                    System.out.println("Enter new " + accounts[i]);
+                                                    System.out.print("--> ");
+                                                    accountPicker[i][choiceAdmin] = sc.nextLine();
+                                                } else {
+                                                    break;
+                                                }
                                             }
                                         }
 
