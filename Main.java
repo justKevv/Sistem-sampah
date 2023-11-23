@@ -84,7 +84,7 @@ public class Main {
     private static int counterRegister = 5;
 
     public static void main(String[] args) {
-        
+
         String[] inOrganicTrash = { "", "Plastic", "Metal", "Glass" };
         int[] priceInorganic = { 0, 200, 400, 600 };
         int[] valueInorganic = { 0, 150, 200, 300 };
@@ -135,7 +135,7 @@ public class Main {
                 sc.nextLine();
             }
 
-            clearScreen();
+            clearTerminal();
 
             switch (choice) {
                 // LOGIN
@@ -180,12 +180,15 @@ public class Main {
 
                         System.out.println("+------------------------------+");
                     }
-                    clearScreen();
+
+                    clearTerminal();
+
                     break;
 
                 // REGISTER
                 case 2:
-                    clearScreen();
+
+                    clearTerminal();
 
                     System.out.println("+-----------------------------+");
                     System.out.println("|           SIGN IN           |");
@@ -200,7 +203,7 @@ public class Main {
 
                     System.out.println("+-----------------------------+");
 
-                    clearScreen();
+                    clearTerminal();
 
                     System.out.println("+-----------------------------+");
                     System.out.print("Enter your username: ");
@@ -222,7 +225,8 @@ public class Main {
 
                     counterRegister++;
 
-                    clearScreen();
+                    clearTerminal();
+
                     break;
 
                 // EXIT
@@ -230,7 +234,7 @@ public class Main {
                     return;
             }
 
-            clearScreen();
+            clearTerminal();
 
             // ADMIN MENU
             if (DATA[4][noUser].equals("Admin")) {
@@ -252,7 +256,8 @@ public class Main {
                     choice1 = sc.nextInt();
 
                     while (!(choice1 < 5)) {
-                        clearScreen();
+
+                        clearTerminal();
 
                         System.out.println("+------------------------------------------+");
                         System.out.println("Welcome, " + USERNAME[noUser]);
@@ -271,7 +276,7 @@ public class Main {
                         choice1 = sc.nextInt();
                     }
 
-                    clearScreen();
+                    clearTerminal();
 
                     switch (choice1) {
                         case 1:
@@ -295,7 +300,7 @@ public class Main {
                                 choiceAdmin = sc.nextInt();
                                 sc.nextLine();
 
-                                clearScreen();
+                                clearTerminal();
 
                                 if (choiceAdmin != 0) {
                                     do {
@@ -316,7 +321,7 @@ public class Main {
                                         System.out.print("--> ");
                                         choiceEdit = sc.nextLine();
 
-                                        clearScreen();
+                                        clearTerminal();
 
                                         for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
                                             boolean isDataAccount = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[i]);
@@ -355,7 +360,7 @@ public class Main {
                                             }
                                         }
 
-                                        clearScreen();
+                                        clearTerminal();
 
                                     } while (!choiceEdit.equals("0"));
                                 }
@@ -391,7 +396,8 @@ public class Main {
                     choice1 = sc.nextInt();
 
                     while (!(choice1 < 5)) {
-                        clearScreen();
+
+                        clearTerminal();
 
                         System.out.println("+------------------------------------------+");
                         System.out.println("Welcome, " + USERNAME[noUser] + "! \t\t" + "Point : " + POINTS[noUser]);
@@ -411,7 +417,7 @@ public class Main {
                         choice1 = sc.nextInt();
                     }
 
-                    clearScreen();
+                    clearTerminal();
 
                     switch (choice1) {
                         case 1:
@@ -427,7 +433,7 @@ public class Main {
                             System.out.print("--> ");
                             choice2 = sc.nextInt();
 
-                            clearScreen();
+                            clearTerminal();
 
                             while (!(choice2 < 3)) {
                                 System.out.println("+------------------------------------------+");
@@ -468,12 +474,13 @@ public class Main {
                             System.out.print("--> ");
                             chooseTrash = sc.nextInt();
 
-                            clearScreen();
+                            clearTerminal();
 
                             while ((chooseTrash < 1) || (chooseTrash > 4)) {
                                 System.out.println("+------------------------------------------+");
                                 System.out
-                                        .println("Please choose which " + TYPE_TRASH[choice2] + " you have corecctly: ");
+                                        .println(
+                                                "Please choose which " + TYPE_TRASH[choice2] + " you have corecctly: ");
                                 for (int i = 1; i < TrashPicker[choice2].length; i++) {
                                     System.out.println(i + ". " + TrashPicker[choice2][i] + "\t\t\t" + "Rp. "
                                             + pricePicker[choice2][i]);
@@ -481,7 +488,7 @@ public class Main {
                                 System.out.print("--> ");
                                 chooseTrash = sc.nextInt();
 
-                                clearScreen();
+                                clearTerminal();
 
                             }
                             System.out.println("+------------------------------------------+");
@@ -507,7 +514,7 @@ public class Main {
 
                             finalPrice = (totalTrash + shipping) - discount;
 
-                            clearScreen();
+                            clearTerminal();
 
                             // BILL
                             System.out.println("+----------------------------------+");
@@ -537,7 +544,8 @@ public class Main {
                             } catch (Exception e) {
                             }
 
-                            clearScreen();
+                            clearTerminal();
+
                             break;
 
                         case 2:
@@ -554,7 +562,7 @@ public class Main {
                                 System.out.print("--> ");
                                 choice3 = sc.nextInt();
 
-                                clearScreen();
+                                clearTerminal();
 
                                 switch (choice3) {
                                     case 1:
@@ -567,7 +575,7 @@ public class Main {
 
                             } while (choice3 != 3);
 
-                            clearScreen();
+                            clearTerminal();
 
                             break;
                         case 3:
@@ -582,8 +590,10 @@ public class Main {
         } while (choice != 3);
     }
 
-    static void clearScreen() {
+    static void clearTerminal() {
+
         System.out.print("\033[H\033[2J");
         System.out.flush();
+
     }
 }
