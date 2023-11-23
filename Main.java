@@ -84,7 +84,7 @@ public class Main {
     private static int counterRegister = 5;
 
     public static void main(String[] args) {
-        
+
         String[] inOrganicTrash = { "", "Plastic", "Metal", "Glass" };
         int[] priceInorganic = { 0, 200, 400, 600 };
         int[] valueInorganic = { 0, 150, 200, 300 };
@@ -180,11 +180,14 @@ public class Main {
 
                         System.out.println("+------------------------------+");
                     }
+
                     clearTerminal();
+
                     break;
 
                 // REGISTER
                 case 2:
+
                     clearTerminal();
 
                     System.out.println("+-----------------------------+");
@@ -223,6 +226,7 @@ public class Main {
                     counterRegister++;
 
                     clearTerminal();
+
                     break;
 
                 // EXIT
@@ -252,6 +256,7 @@ public class Main {
                     choice1 = sc.nextInt();
 
                     while (!(choice1 < 5)) {
+
                         clearTerminal();
 
                         System.out.println("+------------------------------------------+");
@@ -391,6 +396,7 @@ public class Main {
                     choice1 = sc.nextInt();
 
                     while (!(choice1 < 5)) {
+
                         clearTerminal();
 
                         System.out.println("+------------------------------------------+");
@@ -473,7 +479,8 @@ public class Main {
                             while ((chooseTrash < 1) || (chooseTrash > 4)) {
                                 System.out.println("+------------------------------------------+");
                                 System.out
-                                        .println("Please choose which " + TYPE_TRASH[choice2] + " you have corecctly: ");
+                                        .println(
+                                                "Please choose which " + TYPE_TRASH[choice2] + " you have corecctly: ");
                                 for (int i = 1; i < TrashPicker[choice2].length; i++) {
                                     System.out.println(i + ". " + TrashPicker[choice2][i] + "\t\t\t" + "Rp. "
                                             + pricePicker[choice2][i]);
@@ -538,6 +545,7 @@ public class Main {
                             }
 
                             clearTerminal();
+
                             break;
 
                         case 2:
@@ -583,7 +591,9 @@ public class Main {
     }
 
     static void clearTerminal() {
+
         System.out.print("\033[H\033[2J");
         System.out.flush();
+
     }
 }
