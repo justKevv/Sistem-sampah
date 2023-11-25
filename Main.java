@@ -22,14 +22,14 @@ public class Main {
         USERNAME[1] = "kevv";
         USERNAME[2] = "seno1";
         USERNAME[3] = "adzinnn";
-        USERNAME[4] = "ADMIN";
+        USERNAME[4] = "admin";
 
         // Password
         PASSWORD[0] = "";
         PASSWORD[1] = "kevv";
         PASSWORD[2] = "seno1";
         PASSWORD[3] = "adzinnn";
-        PASSWORD[4] = "ADMIN";
+        PASSWORD[4] = "admin";
     }
 
     private static final String[][] DATA = new String[10][20];
@@ -42,7 +42,7 @@ public class Main {
         DATA[0][3] = "Ahmad Adzin";
         DATA[0][4] = "Admin";
 
-        // Address
+        // Addressww
         DATA[1][0] = "default";
         DATA[1][1] = "Sukun";
         DATA[1][2] = "Polehan";
@@ -83,32 +83,65 @@ public class Main {
 
     private static int counterRegister = 5;
 
+    private static final String[] INORGANIC_TRASH = new String[10];
+    private static final int[] PRICE_INORGANIC = new int[10];
+    private static final int[] VALUE_INORGANIC = new int[10];
+
+    static {
+        INORGANIC_TRASH[0] = "";
+        INORGANIC_TRASH[1] = "Plastic";
+        INORGANIC_TRASH[2] = "Metal";
+        INORGANIC_TRASH[3] = "Glass";
+
+        PRICE_INORGANIC[0] = 0;
+        PRICE_INORGANIC[1] = 200;
+        PRICE_INORGANIC[2] = 400;
+        PRICE_INORGANIC[3] = 600;
+
+        VALUE_INORGANIC[0] = 0;
+        VALUE_INORGANIC[1] = 150;
+        VALUE_INORGANIC[2] = 200;
+        VALUE_INORGANIC[3] = 300;
+    }
+
+    private static final String[] ORGANIC_TRASH = new String[10];
+    private static final int[] PRICE_ORGANIC = new int[10];
+    private static final int[] VALUE_ORGANIC = new int[10];
+
+    static {
+        ORGANIC_TRASH[0] = "";
+        ORGANIC_TRASH[1] = "Paper";
+        ORGANIC_TRASH[2] = "Plant";
+        ORGANIC_TRASH[3] = "Food Waste";
+
+        PRICE_ORGANIC[0] = 0;
+        PRICE_ORGANIC[1] = 100;
+        PRICE_ORGANIC[2] = 50;
+        PRICE_ORGANIC[3] = 20;
+
+        VALUE_ORGANIC[0] = 0;
+        VALUE_ORGANIC[1] = 50;
+        VALUE_ORGANIC[2] = 25;
+        VALUE_ORGANIC[3] = 10;
+    }
+
+    private static final String[][] TRASH_PICKER = { null, INORGANIC_TRASH, ORGANIC_TRASH };
+    private static final int[][] PRICE_PICKER = { null, PRICE_INORGANIC, PRICE_ORGANIC };
+    private static final int[][] VALUE_PICKER = { null, VALUE_INORGANIC, VALUE_ORGANIC };
+
+    private static final String[][] ACCOUNT_PICKER = { USERNAME, PASSWORD };
+
+    private static String inputUsername, inputPassword;
+    private static int chooseTrash;
+    private static int weightTrash, quantity, distance;
+    private static int totalTrash, shipping, discount, finalPrice;
+
+    private static int choice, choice1, choice2, choice3;
+    private static int choiceAdmin = 0;
+    private static String choiceEdit;
+    private static int noUser = 0;
+
     public static void main(String[] args) {
-
-        String[] inOrganicTrash = { "", "Plastic", "Metal", "Glass" };
-        int[] priceInorganic = { 0, 200, 400, 600 };
-        int[] valueInorganic = { 0, 150, 200, 300 };
-
-        String[] organicTrash = { "", "Paper", "Plant", "Food Waste" };
-        int[] priceOrganic = { 0, 100, 50, 20 };
-        int[] valueOrganic = { 0, 50, 25, 10 };
-
-        String[][] TrashPicker = { null, inOrganicTrash, organicTrash };
-        int[][] pricePicker = { null, priceInorganic, priceOrganic };
-        int[][] valuePicker = { null, valueInorganic, valueOrganic };
-
-        String[][] accountPicker = { USERNAME, PASSWORD };
-
-        String inputUsername, inputPassword;
-        int chooseTrash;
-        int weightTrash, quantity, distance;
-        int totalTrash, shipping, discount, finalPrice;
-
-        int choice, choice1, choice2, choice3;
-        int choiceAdmin = 0;
-        String choiceEdit;
-        int noUser = 0;
-
         do {
             System.out.println("+------------------------------------------+");
             System.out.println("|         WELCOME TO TRASH PICKUP          |");
@@ -121,8 +154,8 @@ public class Main {
             sc.nextLine();
 
             while (choice > 3) {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
+
+                clearTerminal();
 
                 System.out.println("+------------------------------------------+");
                 System.out.println("|         WELCOME TO TRASH PICKUP          |");
@@ -147,18 +180,11 @@ public class Main {
                     inputPassword = new String(System.console().readPassword());
                     System.out.println("+------------------------+");
 
-                    boolean validCredentials = false;
-                    for (int i = 0; i < USERNAME.length; i++) {
-                        if (inputUsername.equals(USERNAME[i]) && inputPassword.equals(PASSWORD[i])) {
-                            validCredentials = true;
-                            noUser = i;
-                            break;
-                        }
-                    }
+                    checkAccount(inputUsername, inputPassword);
 
-                    while (!validCredentials) {
-                        System.out.print("\033[H\033[2J");
-                        System.out.flush();
+                    while (!checkAccount(inputUsername, inputPassword)) {
+
+                        clearTerminal();
 
                         System.out.println("+------------------------------+");
                         System.out.println("| Invalid USERNAME or PASSWORD |");
@@ -170,13 +196,7 @@ public class Main {
                         System.out.print("Enter your password: ");
                         inputPassword = new String(System.console().readPassword());
 
-                        for (int i = 0; i < USERNAME.length; i++) {
-                            if (inputUsername.equals(USERNAME[i]) && inputPassword.equals(PASSWORD[i])) {
-                                validCredentials = true;
-                                noUser = i;
-                                break;
-                            }
-                        }
+                        checkAccount(inputUsername, inputPassword);
 
                         System.out.println("+------------------------------+");
                     }
@@ -211,8 +231,7 @@ public class Main {
                     System.out.print("Enter your password: ");
                     PASSWORD[counterRegister] = sc.next();
 
-                    System.out.print("\033[H\033[2J");
-                    System.out.flush();
+                    clearTerminal();
 
                     System.out.println("Do you want to sign up for a membership ?");
                     System.out.println("You will get a discount if you sign up for a membership.");
@@ -284,13 +303,13 @@ public class Main {
                                 System.out.println("Choose which account you want to access.");
                                 System.out.println(
                                         "+------------------------------------------------------------------+");
-                                System.out.printf("%-10s | %-20s | %-20s | %-10s%n", "No", "Username", "Password",
+                                System.out.printf("%-5s | %-20s | %-20s | %-10s%n", "No", "Username", "Password",
                                         "Role");
                                 System.out.println(
                                         "+------------------------------------------------------------------+");
 
                                 for (int i = 1; i < counterRegister; i++) {
-                                    System.out.printf("%-10s | %-20s | %-20s | %-10s%n", i, USERNAME[i], PASSWORD[i],
+                                    System.out.printf("%-5s | %-20s | %-20s | %-10s%n", i, USERNAME[i], PASSWORD[i],
                                             DATA[4][i]);
                                 }
                                 System.out.println(
@@ -307,7 +326,7 @@ public class Main {
                                         System.out
                                                 .println("+---------------------------------------------------------+");
                                         for (int i = 0; i < ACCOUNTS.length; i++) {
-                                            System.out.println(ACCOUNTS[i] + "\t: " + accountPicker[i][choiceAdmin]);
+                                            System.out.println(ACCOUNTS[i] + "\t: " + ACCOUNT_PICKER[i][choiceAdmin]);
                                         }
                                         System.out
                                                 .println("+---------------------------------------------------------+");
@@ -335,7 +354,7 @@ public class Main {
                                             }
                                         }
 
-                                        for (int i = 0; i < accountPicker.length; i++) {
+                                        for (int i = 0; i < ACCOUNT_PICKER.length; i++) {
                                             boolean isAccount = choiceEdit.equalsIgnoreCase(ACCOUNTS[i]);
                                             if (isAccount) {
                                                 System.out.println("+-------------------------------------------+");
@@ -353,7 +372,7 @@ public class Main {
                                                     System.out.println("+-----------------------------------+");
                                                     System.out.println("Enter new " + ACCOUNTS[i]);
                                                     System.out.print("--> ");
-                                                    accountPicker[i][choiceAdmin] = sc.nextLine();
+                                                    ACCOUNT_PICKER[i][choiceAdmin] = sc.nextLine();
                                                 } else {
                                                     break;
                                                 }
@@ -373,7 +392,7 @@ public class Main {
                             break;
                     }
 
-                } while (choice1 != 3);
+                } while (choice1 != (ADMIN.length - 1));
             } else {
 
                 // USER MENU
@@ -448,17 +467,16 @@ public class Main {
                                 System.out.print("--> ");
                                 choice2 = sc.nextInt();
 
-                                System.out.print("\033[H\033[2J");
-                                System.out.flush();
+                                clearTerminal();
 
                             }
 
                             System.out.println("+------------------------------------------+");
                             System.out.println("Choose which " + TYPE_TRASH[choice2] + " you have: ");
 
-                            for (int i = 1; i < TrashPicker[choice2].length; i++) {
-                                System.out.println(i + ". " + TrashPicker[choice2][i] + "\t\t\t" + "Rp. "
-                                        + pricePicker[choice2][i]);
+                            for (int i = 1; i < TRASH_PICKER[choice2].length; i++) {
+                                System.out.println(i + ". " + TRASH_PICKER[choice2][i] + "\t\t\t" + "Rp. "
+                                        + PRICE_PICKER[choice2][i]);
                             }
                             /*
                              * Inorganic
@@ -481,9 +499,9 @@ public class Main {
                                 System.out
                                         .println(
                                                 "Please choose which " + TYPE_TRASH[choice2] + " you have corecctly: ");
-                                for (int i = 1; i < TrashPicker[choice2].length; i++) {
-                                    System.out.println(i + ". " + TrashPicker[choice2][i] + "\t\t\t" + "Rp. "
-                                            + pricePicker[choice2][i]);
+                                for (int i = 1; i < TRASH_PICKER[choice2].length; i++) {
+                                    System.out.println(i + ". " + TRASH_PICKER[choice2][i] + "\t\t\t" + "Rp. "
+                                            + PRICE_PICKER[choice2][i]);
                                 }
                                 System.out.print("--> ");
                                 chooseTrash = sc.nextInt();
@@ -492,8 +510,8 @@ public class Main {
 
                             }
                             System.out.println("+------------------------------------------+");
-                            System.out.println("Value of " + TrashPicker[choice2][chooseTrash] + " is Rp. "
-                                    + valuePicker[choice2][chooseTrash]);
+                            System.out.println("Value of " + TRASH_PICKER[choice2][chooseTrash] + " is Rp. "
+                                    + VALUE_PICKER[choice2][chooseTrash]);
                             System.out.println();
                             System.out.print("Enter the weight of the trash (KG): ");
                             weightTrash = sc.nextInt();
@@ -502,9 +520,9 @@ public class Main {
                             System.out.print("Enter your distances (KM): ");
                             distance = sc.nextInt();
 
-                            totalTrash = weightTrash * pricePicker[choice2][chooseTrash];
+                            totalTrash = weightTrash * PRICE_PICKER[choice2][chooseTrash];
                             shipping = distance * 1000;
-                            discount = quantity * valuePicker[choice2][chooseTrash];
+                            discount = quantity * VALUE_PICKER[choice2][chooseTrash];
 
                             if (DATA[3][noUser].equals("yes")) {
                                 discount += 200;
@@ -524,7 +542,7 @@ public class Main {
                             System.out.println("+----------------------------------+");
                             System.out.println("  " + TYPE_TRASH[choice2] + "");
                             System.out.println("+----------------------------------+");
-                            System.out.println("  " + TrashPicker[choice2][chooseTrash] + " Type ");
+                            System.out.println("  " + TRASH_PICKER[choice2][chooseTrash] + " Type ");
                             System.out.println("  Weight       : " + weightTrash + " KG");
                             System.out.println("  Quantity     : " + quantity);
                             System.out.println("  Distance     : " + distance + " KM");
@@ -584,7 +602,7 @@ public class Main {
                         case 4:
                             break;
                     }
-                } while (choice1 != 4);
+                } while (choice1 != (HOME.length - 1));
             }
 
         } while (choice != 3);
@@ -595,5 +613,17 @@ public class Main {
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
+    }
+
+    static boolean checkAccount(String username, String password) {
+        boolean validCredentials = false;
+        for (int i = 0; i < USERNAME.length; i++) {
+            if (username.equals(USERNAME[i]) && password.equals(PASSWORD[i])) {
+                validCredentials = true;
+                noUser = i;
+                break;
+            }
+        }
+        return validCredentials;
     }
 }
