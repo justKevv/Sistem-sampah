@@ -91,7 +91,7 @@ public class Main {
     }
 
     private static int counterAdmin = 2;
-    private static int counterRegister = 5;
+    private static int counterAccount = 5;
 
     private static final String[] INORGANIC_TRASH = new String[10];
     private static final int[] PRICE_INORGANIC = new int[10];
@@ -149,7 +149,7 @@ public class Main {
     private static int totalTrash, shipping, discount, finalPrice;
 
     private static int choice, choice1, choice2, choice3;
-    private static String choiceAdmin;
+    private static String choiceAdmin, choiceAdd;
     private static String choiceEdit, choiceTrash;
     private static int noUser = 0;
 
@@ -226,37 +226,20 @@ public class Main {
                     System.out.println("|           SIGN IN           |");
                     System.out.println("+-----------------------------+");
 
-                    System.out.print("Enter your name: ");
-                    DATA[1][counterRegister] = sc.nextLine();
-                    System.out.print("Enter your address: ");
-                    DATA[2][counterRegister] = sc.nextLine();
-                    System.out.print("Enter your phone number: ");
-                    DATA[3][counterRegister] = sc.next();
-
-                    System.out.println("+-----------------------------+");
-
-                    clearTerminal();
-
-                    System.out.println("+-----------------------------+");
-                    System.out.print("Enter your username: ");
-                    USERNAME[counterRegister] = sc.next();
-                    System.out.print("Enter your password: ");
-                    PASSWORD[counterRegister] = sc.next();
-
-                    clearTerminal();
+                    registerMenu();
 
                     System.out.println("Do you want to sign up for a membership ?");
                     System.out.println("You will get a discount if you sign up for a membership.");
                     System.out.print("(yes/no) : ");
-                    DATA[4][counterRegister] = sc.next();
+                    DATA[4][counterAccount] = sc.next();
 
-                    noUser = counterRegister;
+                    noUser = counterAccount;
 
-                    DATA[0][counterRegister] = "U11" + counterRegister;
+                    DATA[0][counterAccount] = "U11" + counterAccount;
 
-                    DATA[5][counterRegister] = ROLE[1];
+                    DATA[5][counterAccount] = ROLE[1];
 
-                    counterRegister++;
+                    counterAccount++;
 
                     clearTerminal();
 
@@ -307,6 +290,7 @@ public class Main {
                          */
                         System.out.print("--> ");
                         choice1 = sc.nextInt();
+                        sc.nextLine();
                     }
 
                     clearTerminal();
@@ -322,84 +306,20 @@ public class Main {
                                 System.out.println(
                                         "+------------------------------------------------------------------+");
 
-                                for (int i = 1; i < counterRegister; i++) {
+                                for (int i = 1; i < counterAccount; i++) {
                                     System.out.printf("%-5s | %-20s | %-20s | %-10s%n", DATA[0][i], USERNAME[i],
                                             PASSWORD[i],
                                             DATA[5][i]);
                                 }
                                 System.out.println(
                                         "+------------------------------------------------------------------+");
-                                System.out.println("Use 0 to go back to main menu.");
+                                System.out.println("Type \"help\"" + " for more information");
                                 System.out.print("--> ");
                                 choiceAdmin = sc.nextLine();
 
+                                commandAdmin(choiceAdmin);
+
                                 clearTerminal();
-
-                                if (!choiceAdmin.isEmpty()) {
-                                    do {
-
-                                        System.out
-                                                .println("+---------------------------------------------------------+");
-                                        for (int i = 0; i < ACCOUNTS.length; i++) {
-                                            System.out.println(
-                                                    ACCOUNTS[i] + "\t: " + ACCOUNT_PICKER[i][getAccount(choiceAdmin)]);
-                                        }
-                                        System.out
-                                                .println("+---------------------------------------------------------+");
-                                        for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
-                                            System.out.println(
-                                                    DATA_ACCOUNTS[i] + "\t: " + DATA[i][getAccount(choiceAdmin)]);
-                                        }
-                                        System.out
-                                                .println("+--------------------------------------------------------+");
-                                        System.out.println("Use 0 to go back to main menu.");
-                                        System.out.println("Which one you want to edit : ");
-                                        System.out.print("--> ");
-                                        choiceEdit = sc.nextLine();
-
-                                        clearTerminal();
-
-                                        for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
-                                            boolean isDataAccount = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[i]);
-                                            if (isDataAccount) {
-                                                System.out.println("+-----------------------------------+");
-                                                System.out.println("\t    Edit " + DATA_ACCOUNTS[i]);
-                                                System.out.println("+-----------------------------------+");
-                                                System.out.println("Enter new " + DATA_ACCOUNTS[i]);
-                                                System.out.print("--> ");
-                                                DATA[i][getAccount(choiceAdmin)] = sc.nextLine();
-                                            }
-                                        }
-
-                                        for (int i = 0; i < ACCOUNT_PICKER.length; i++) {
-                                            boolean isAccount = choiceEdit.equalsIgnoreCase(ACCOUNTS[i]);
-                                            if (isAccount) {
-                                                System.out.println("+-------------------------------------------+");
-                                                System.out.println("Are you sure you want to edit the "
-                                                        + ACCOUNTS[i] + " ?");
-                                                System.out.println("+-------------------------------------------+");
-                                                System.out.println(
-                                                        "Warning: this will lead user to unable to access the account.");
-                                                System.out.print("yes/no : ");
-                                                choiceEdit = sc.nextLine();
-
-                                                if (choiceEdit.equalsIgnoreCase("yes")) {
-                                                    System.out.println("+-----------------------------------+");
-                                                    System.out.println("\t    Edit " + ACCOUNTS[i]);
-                                                    System.out.println("+-----------------------------------+");
-                                                    System.out.println("Enter new " + ACCOUNTS[i]);
-                                                    System.out.print("--> ");
-                                                    ACCOUNT_PICKER[i][getAccount(choiceAdmin)] = sc.nextLine();
-                                                } else {
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        clearTerminal();
-
-                                    } while (!choiceEdit.equals("0"));
-                                }
 
                             } while (!choiceAdmin.equals("0"));
                             break;
@@ -639,6 +559,7 @@ public class Main {
             }
 
         } while (choice != 3);
+
     }
 
     static int getAccount(String Id) {
@@ -662,7 +583,6 @@ public class Main {
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
-
     }
 
     static boolean checkAccount(String username, String password) {
@@ -675,5 +595,152 @@ public class Main {
             }
         }
         return validCredentials;
+    }
+
+    static void editAccount(int ID) {
+        if (!choiceAdmin.isEmpty()) {
+            do {
+                clearTerminal();
+
+                System.out
+                        .println("+---------------------------------------------------------+");
+                for (int i = 0; i < ACCOUNTS.length; i++) {
+                    System.out.println(
+                            ACCOUNTS[i] + "\t: " + ACCOUNT_PICKER[i][ID]);
+                }
+                System.out
+                        .println("+---------------------------------------------------------+");
+                for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
+                    System.out.println(
+                            DATA_ACCOUNTS[i] + "\t: " + DATA[i][ID]);
+                }
+                System.out
+                        .println("+--------------------------------------------------------+");
+                System.out.println("Use 0 to go back to main menu.");
+                System.out.println("Which one you want to edit : ");
+                System.out.print("--> ");
+                choiceEdit = sc.nextLine();
+
+                clearTerminal();
+
+                for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
+                    boolean isDataAccount = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[i]);
+                    if (isDataAccount) {
+                        System.out.println("+-----------------------------------+");
+                        System.out.println("\t    Edit " + DATA_ACCOUNTS[i]);
+                        System.out.println("+-----------------------------------+");
+                        System.out.println("Enter new " + DATA_ACCOUNTS[i]);
+                        System.out.print("--> ");
+                        DATA[i][getAccount(choiceAdmin)] = sc.nextLine();
+                    }
+                }
+
+                for (int i = 0; i < ACCOUNT_PICKER.length; i++) {
+                    boolean isAccount = choiceEdit.equalsIgnoreCase(ACCOUNTS[i]);
+                    if (isAccount) {
+                        System.out.println("+-------------------------------------------+");
+                        System.out.println("Are you sure you want to edit the "
+                                + ACCOUNTS[i] + " ?");
+                        System.out.println("+-------------------------------------------+");
+                        System.out.println(
+                                "Warning: this will lead user to unable to access the account.");
+                        System.out.print("yes/no : ");
+                        choiceEdit = sc.nextLine();
+
+                        if (choiceEdit.equalsIgnoreCase("yes")) {
+                            System.out.println("+-----------------------------------+");
+                            System.out.println("\t    Edit " + ACCOUNTS[i]);
+                            System.out.println("+-----------------------------------+");
+                            System.out.println("Enter new " + ACCOUNTS[i]);
+                            System.out.print("--> ");
+                            ACCOUNT_PICKER[i][ID] = sc.nextLine();
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                clearTerminal();
+
+            } while (!choiceEdit.equals("0"));
+
+        }
+    }
+
+    static void addAccount() {
+
+        clearTerminal();
+
+        System.out.println("+-----------------------------------+");
+        System.out.println("\t Add new account    ");
+        System.out.println("+-----------------------------------+");
+        System.out.print("Select account type ");
+        for (int i = 0; i < ROLE.length; i++) {
+            System.out.print("(" + String.join("/ ", ROLE[i]) + ")");
+        }
+        System.out.print(" : ");
+        choiceAdd = sc.nextLine();
+
+        clearTerminal();
+
+        registerMenu();
+
+        if (choiceAdd.equalsIgnoreCase("Admin")) {
+            DATA[5][counterAccount] = ROLE[0];
+            DATA[0][counterAccount] = "A10" + counterAdmin;
+            counterAdmin++;
+        } else {
+            DATA[5][counterAccount] = ROLE[1];
+            DATA[0][counterAccount] = "U11" + counterAccount;
+        }
+        counterAccount++;
+    }
+
+    static void registerMenu() {
+
+        // Username and Password
+        for (int i = 0; i < ACCOUNTS.length; i++) {
+            System.out.println("+-----------------------------------+");
+            System.out.println("Enter " + ACCOUNTS[i]);
+            System.out.print("--> ");
+            ACCOUNT_PICKER[i][counterAccount] = sc.nextLine();
+            System.out.println();
+        }
+
+        clearTerminal();
+
+        for (int i = 1; i < 4; i++) {
+            System.out.println("+-----------------------------------+");
+            System.out.println("Enter " + DATA_ACCOUNTS[i]);
+            System.out.print("--> ");
+            DATA[i][counterAccount] = sc.nextLine();
+            System.out.println();
+        }
+
+        clearTerminal();
+
+    }
+
+    static void helpAdmin() {
+        System.out.println();
+        System.out.println("\"add\"" + "\t\t\t" + "To add new account");
+        System.out.println("\"0\"" + "\t\t\t" + "To go back to main menu");
+        System.out.print("--> ");
+        choiceAdmin = sc.nextLine();
+
+        commandAdmin(choiceAdmin);
+
+    }
+
+    static void commandAdmin(String choose) {
+        if (choose.equalsIgnoreCase("help")) {
+            helpAdmin();
+        } else if (choose.equalsIgnoreCase("0")) {
+
+        } else if (choose.equalsIgnoreCase("add")) {
+            addAccount();
+        } else {
+            editAccount(getAccount(choose));
+        }
     }
 }
