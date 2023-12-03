@@ -1,14 +1,17 @@
 import java.util.Scanner;
+import java.io.Console;
 
 public class Main {
+
+    static Console getConsole = System.console();
 
     static Scanner sc = new Scanner(System.in);
 
     private static final String[] ROLE = { "Admin", "User" };
     private static final String[] ACCOUNTS = { "Username", "Password" };
-    private static final String[] DATA_ACCOUNTS = { "Name", "Address", "Number", "Member", "Role" };
+    private static final String[] DATA_ACCOUNTS = { "ID", "Name", "Address", "Number", "Member", "Role" };
 
-    private static final String[] HOME = { "", "Donate Trash", "Voucher", "History", "Logout" };
+    private static final String[] HOME = { "", "Donate Trash", "Voucher", "History", "Profile", "Logout" };
     private static final String[] ADMIN = { "", "Account", "Trash List", "Logout" };
     private static final String[] MENU_VOUCHER = { "", "Redeem", "Points", "Back" };
     private static final String[] TYPE_TRASH = { "", "Inorganic Trash", "Organic Trash" };
@@ -35,40 +38,46 @@ public class Main {
     private static final String[][] DATA = new String[10][20];
 
     static {
+        // ID
+        DATA[0][0] = "default";
+        DATA[0][1] = "U111";
+        DATA[0][2] = "U112";
+        DATA[0][3] = "U113";
+        DATA[0][4] = "A101";
         // Name
-        DATA[0][0] = "";
-        DATA[0][1] = "Kevin Bramasta";
-        DATA[0][2] = "Baskoro Seno";
-        DATA[0][3] = "Ahmad Adzin";
-        DATA[0][4] = "Admin";
+        DATA[1][0] = "";
+        DATA[1][1] = "Kevin Bramasta";
+        DATA[1][2] = "Baskoro Seno";
+        DATA[1][3] = "Ahmad Adzin";
+        DATA[1][4] = "Admin";
 
-        // Addressww
-        DATA[1][0] = "default";
-        DATA[1][1] = "Sukun";
-        DATA[1][2] = "Polehan";
-        DATA[1][3] = "Gadang";
-        DATA[1][4] = "-";
-
-        // Number
+        // Address
         DATA[2][0] = "default";
-        DATA[2][1] = "08123456789";
-        DATA[2][2] = "08123456789";
-        DATA[2][3] = "08123456789";
+        DATA[2][1] = "Sukun";
+        DATA[2][2] = "Polehan";
+        DATA[2][3] = "Gadang";
         DATA[2][4] = "-";
 
-        // Member
+        // Number
         DATA[3][0] = "default";
-        DATA[3][1] = "yes";
-        DATA[3][2] = "yes";
-        DATA[3][3] = "no";
+        DATA[3][1] = "08123456789";
+        DATA[3][2] = "08123456789";
+        DATA[3][3] = "08123456789";
         DATA[3][4] = "-";
 
+        // Member
+        DATA[4][0] = "default";
+        DATA[4][1] = "yes";
+        DATA[4][2] = "yes";
+        DATA[4][3] = "no";
+        DATA[4][4] = "-";
+
         // Role
-        DATA[4][0] = ROLE[0];
-        DATA[4][1] = ROLE[1];
-        DATA[4][2] = ROLE[1];
-        DATA[4][3] = ROLE[1];
-        DATA[4][4] = ROLE[0];
+        DATA[5][0] = ROLE[0];
+        DATA[5][1] = ROLE[1];
+        DATA[5][2] = ROLE[1];
+        DATA[5][3] = ROLE[1];
+        DATA[5][4] = ROLE[0];
     }
 
     private static final int[] POINTS = new int[20];
@@ -81,6 +90,7 @@ public class Main {
         POINTS[4] = 0;
     }
 
+    private static int counterAdmin = 2;
     private static int counterRegister = 5;
 
     private static final String[] INORGANIC_TRASH = new String[10];
@@ -99,9 +109,9 @@ public class Main {
         PRICE_INORGANIC[3] = 600;
 
         VALUE_INORGANIC[0] = 0;
-        VALUE_INORGANIC[1] = 150;
+        VALUE_INORGANIC[1] = 50;
         VALUE_INORGANIC[2] = 200;
-        VALUE_INORGANIC[3] = 300;
+        VALUE_INORGANIC[3] = 100;
     }
 
     private static final String[] ORGANIC_TRASH = new String[10];
@@ -120,10 +130,12 @@ public class Main {
         PRICE_ORGANIC[3] = 20;
 
         VALUE_ORGANIC[0] = 0;
-        VALUE_ORGANIC[1] = 50;
+        VALUE_ORGANIC[1] = 1;
         VALUE_ORGANIC[2] = 25;
-        VALUE_ORGANIC[3] = 10;
+        VALUE_ORGANIC[3] = 5;
     }
+
+    private static int trashCount = 4;
 
     private static final String[][] TRASH_PICKER = { null, INORGANIC_TRASH, ORGANIC_TRASH };
     private static final int[][] PRICE_PICKER = { null, PRICE_INORGANIC, PRICE_ORGANIC };
@@ -137,8 +149,8 @@ public class Main {
     private static int totalTrash, shipping, discount, finalPrice;
 
     private static int choice, choice1, choice2, choice3;
-    private static int choiceAdmin = 0;
-    private static String choiceEdit;
+    private static String choiceAdmin;
+    private static String choiceEdit, choiceTrash;
     private static int noUser = 0;
 
     public static void main(String[] args) {
@@ -215,11 +227,11 @@ public class Main {
                     System.out.println("+-----------------------------+");
 
                     System.out.print("Enter your name: ");
-                    DATA[0][counterRegister] = sc.nextLine();
-                    System.out.print("Enter your address: ");
                     DATA[1][counterRegister] = sc.nextLine();
+                    System.out.print("Enter your address: ");
+                    DATA[2][counterRegister] = sc.nextLine();
                     System.out.print("Enter your phone number: ");
-                    DATA[2][counterRegister] = sc.next();
+                    DATA[3][counterRegister] = sc.next();
 
                     System.out.println("+-----------------------------+");
 
@@ -236,11 +248,13 @@ public class Main {
                     System.out.println("Do you want to sign up for a membership ?");
                     System.out.println("You will get a discount if you sign up for a membership.");
                     System.out.print("(yes/no) : ");
-                    DATA[3][counterRegister] = sc.next();
+                    DATA[4][counterRegister] = sc.next();
 
                     noUser = counterRegister;
 
-                    DATA[4][counterRegister] = ROLE[1];
+                    DATA[0][counterRegister] = "U11" + counterRegister;
+
+                    DATA[5][counterRegister] = ROLE[1];
 
                     counterRegister++;
 
@@ -256,7 +270,7 @@ public class Main {
             clearTerminal();
 
             // ADMIN MENU
-            if (DATA[4][noUser].equals("Admin")) {
+            if (DATA[5][noUser].equals("Admin")) {
                 do {
                     System.out.println("+------------------------------------------+");
                     System.out.println("Welcome, " + USERNAME[noUser]);
@@ -303,35 +317,38 @@ public class Main {
                                 System.out.println("Choose which account you want to access.");
                                 System.out.println(
                                         "+------------------------------------------------------------------+");
-                                System.out.printf("%-5s | %-20s | %-20s | %-10s%n", "No", "Username", "Password",
+                                System.out.printf("%-5s | %-20s | %-20s | %-10s%n", "ID", "Username", "Password",
                                         "Role");
                                 System.out.println(
                                         "+------------------------------------------------------------------+");
 
                                 for (int i = 1; i < counterRegister; i++) {
-                                    System.out.printf("%-5s | %-20s | %-20s | %-10s%n", i, USERNAME[i], PASSWORD[i],
-                                            DATA[4][i]);
+                                    System.out.printf("%-5s | %-20s | %-20s | %-10s%n", DATA[0][i], USERNAME[i],
+                                            PASSWORD[i],
+                                            DATA[5][i]);
                                 }
                                 System.out.println(
                                         "+------------------------------------------------------------------+");
                                 System.out.println("Use 0 to go back to main menu.");
                                 System.out.print("--> ");
-                                choiceAdmin = sc.nextInt();
-                                sc.nextLine();
+                                choiceAdmin = sc.nextLine();
 
                                 clearTerminal();
 
-                                if (choiceAdmin != 0) {
+                                if (!choiceAdmin.isEmpty()) {
                                     do {
+
                                         System.out
                                                 .println("+---------------------------------------------------------+");
                                         for (int i = 0; i < ACCOUNTS.length; i++) {
-                                            System.out.println(ACCOUNTS[i] + "\t: " + ACCOUNT_PICKER[i][choiceAdmin]);
+                                            System.out.println(
+                                                    ACCOUNTS[i] + "\t: " + ACCOUNT_PICKER[i][getAccount(choiceAdmin)]);
                                         }
                                         System.out
                                                 .println("+---------------------------------------------------------+");
                                         for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
-                                            System.out.println(DATA_ACCOUNTS[i] + "\t: " + DATA[i][choiceAdmin]);
+                                            System.out.println(
+                                                    DATA_ACCOUNTS[i] + "\t: " + DATA[i][getAccount(choiceAdmin)]);
                                         }
                                         System.out
                                                 .println("+--------------------------------------------------------+");
@@ -350,7 +367,7 @@ public class Main {
                                                 System.out.println("+-----------------------------------+");
                                                 System.out.println("Enter new " + DATA_ACCOUNTS[i]);
                                                 System.out.print("--> ");
-                                                DATA[i][choiceAdmin] = sc.nextLine();
+                                                DATA[i][getAccount(choiceAdmin)] = sc.nextLine();
                                             }
                                         }
 
@@ -372,7 +389,7 @@ public class Main {
                                                     System.out.println("+-----------------------------------+");
                                                     System.out.println("Enter new " + ACCOUNTS[i]);
                                                     System.out.print("--> ");
-                                                    ACCOUNT_PICKER[i][choiceAdmin] = sc.nextLine();
+                                                    ACCOUNT_PICKER[i][getAccount(choiceAdmin)] = sc.nextLine();
                                                 } else {
                                                     break;
                                                 }
@@ -384,9 +401,30 @@ public class Main {
                                     } while (!choiceEdit.equals("0"));
                                 }
 
-                            } while (choiceAdmin != 0);
+                            } while (!choiceAdmin.equals("0"));
+                            break;
 
                         case 2:
+                            do {
+                                System.out.println(
+                                        "+----------------------------------------+");
+                                System.out.printf("%-20s | %-20s%n", "Inorganic", "Organic");
+                                System.out.println(
+                                        "+----------------------------------------+");
+
+                                for (int i = 1; i < trashCount; i++) {
+                                    System.out.printf("%-20s | %-20s%n", TRASH_PICKER[1][i],
+                                            TRASH_PICKER[2][i]);
+                                }
+                                System.out.println(
+                                        "+----------------------------------------+");
+                                System.out.println("Use 0 to go back to main menu.");
+                                System.out.print("--> ");
+                                choiceTrash = sc.nextLine();
+
+                                clearTerminal();
+
+                            } while (!choiceTrash.equals("0"));
                             break;
                         case 3:
                             break;
@@ -414,7 +452,7 @@ public class Main {
                     System.out.print("--> ");
                     choice1 = sc.nextInt();
 
-                    while (!(choice1 < 5)) {
+                    while (!(choice1 < HOME.length)) {
 
                         clearTerminal();
 
@@ -474,7 +512,7 @@ public class Main {
                             System.out.println("+------------------------------------------+");
                             System.out.println("Choose which " + TYPE_TRASH[choice2] + " you have: ");
 
-                            for (int i = 1; i < TRASH_PICKER[choice2].length; i++) {
+                            for (int i = 1; i < trashCount; i++) {
                                 System.out.println(i + ". " + TRASH_PICKER[choice2][i] + "\t\t\t" + "Rp. "
                                         + PRICE_PICKER[choice2][i]);
                             }
@@ -494,12 +532,12 @@ public class Main {
 
                             clearTerminal();
 
-                            while ((chooseTrash < 1) || (chooseTrash > 4)) {
+                            while (chooseTrash >= trashCount || chooseTrash < 1) {
                                 System.out.println("+------------------------------------------+");
                                 System.out
                                         .println(
                                                 "Please choose which " + TYPE_TRASH[choice2] + " you have corecctly: ");
-                                for (int i = 1; i < TRASH_PICKER[choice2].length; i++) {
+                                for (int i = 1; i < trashCount; i++) {
                                     System.out.println(i + ". " + TRASH_PICKER[choice2][i] + "\t\t\t" + "Rp. "
                                             + PRICE_PICKER[choice2][i]);
                                 }
@@ -524,21 +562,21 @@ public class Main {
                             shipping = distance * 1000;
                             discount = quantity * VALUE_PICKER[choice2][chooseTrash];
 
-                            if (DATA[3][noUser].equals("yes")) {
+                            if (DATA[4][noUser].equals("yes")) {
                                 discount += 200;
                             } else {
                                 discount += 0;
                             }
 
-                            finalPrice = (totalTrash + shipping) - discount;
+                            finalPrice = Math.max(0, ((totalTrash + shipping) - discount));
 
                             clearTerminal();
 
                             // BILL
                             System.out.println("+----------------------------------+");
-                            System.out.println("  Name        : " + DATA[0][noUser]);
-                            System.out.println("  Address     : " + DATA[1][noUser]);
-                            System.out.println("  Phone       : " + DATA[2][noUser]);
+                            System.out.println("  Name        : " + DATA[1][noUser]);
+                            System.out.println("  Address     : " + DATA[2][noUser]);
+                            System.out.println("  Phone       : " + DATA[3][noUser]);
                             System.out.println("+----------------------------------+");
                             System.out.println("  " + TYPE_TRASH[choice2] + "");
                             System.out.println("+----------------------------------+");
@@ -555,12 +593,7 @@ public class Main {
                             System.out.println("+----------------------------------+");
                             System.out.println();
 
-                            System.out.println("Press Enter key to continue...");
-
-                            try {
-                                System.in.read();
-                            } catch (Exception e) {
-                            }
+                            promptEnterKey();
 
                             clearTerminal();
 
@@ -602,16 +635,33 @@ public class Main {
                         case 4:
                             break;
                     }
-                } while (choice1 != (HOME.length - 1));
+                } while (choice1 != HOME.length - 1);
             }
 
         } while (choice != 3);
+    }
+
+    static int getAccount(String Id) {
+        int noUser = -1;
+        for (int i = 0; i < DATA[0].length; i++) {
+            if (DATA[0][i].toLowerCase().contains(Id.toLowerCase())) {
+                noUser = i;
+                break;
+            }
+        }
+        return noUser;
+    }
+
+    static void promptEnterKey() {
+        System.out.println("Press \"ENTER\" to continue...");
+        getConsole.readLine();
     }
 
     static void clearTerminal() {
 
         System.out.print("\033[H\033[2J");
         System.out.flush();
+
 
     }
 
