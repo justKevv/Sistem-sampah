@@ -16,6 +16,13 @@ public class Main {
     private static final String[] MENU_VOUCHER = { "", "Redeem", "Points", "Back" };
     private static final String[] TYPE_TRASH = { "", "Inorganic Trash", "Organic Trash" };
 
+    private static final String[] LOCATION = new String[10];
+    private static final int[] DISTANCE = new int[10];
+
+    static {
+        
+    }
+
     private static final String[] USERNAME = new String[20];
     private static final String[] PASSWORD = new String[20];
 
@@ -674,11 +681,11 @@ public class Main {
         System.out.println("+-----------------------------------+");
         System.out.println("\t Add new account    ");
         System.out.println("+-----------------------------------+");
-        System.out.print("Select account type ");
+        System.out.print("Select account type (");
         for (int i = 0; i < ROLE.length; i++) {
-            System.out.print("(" + String.join("/ ", ROLE[i]) + ")");
+            System.out.print((i == ROLE.length - 1) ? ROLE[i] : ROLE[i] + "/");
         }
-        System.out.print(" : ");
+        System.out.print("): ");
         choiceAdd = sc.nextLine();
 
         clearTerminal();
@@ -700,24 +707,23 @@ public class Main {
 
         // Username and Password
         for (int i = 0; i < ACCOUNTS.length; i++) {
-            System.out.println("+-----------------------------------+");
-            System.out.println("Enter " + ACCOUNTS[i]);
+            System.out.println("+----------------------------+");
+            System.out.println("Enter the " + ACCOUNTS[i]);
             System.out.print("--> ");
             ACCOUNT_PICKER[i][counterAccount] = sc.nextLine();
-            System.out.println();
         }
 
         clearTerminal();
 
         for (int i = 1; i < 4; i++) {
-            System.out.println("+-----------------------------------+");
-            System.out.println("Enter " + DATA_ACCOUNTS[i]);
+            System.out.println("+----------------------------+");
+            System.out.println("Enter the " + DATA_ACCOUNTS[i]);
             System.out.print("--> ");
             DATA[i][counterAccount] = sc.nextLine();
-            System.out.println();
         }
 
         clearTerminal();
+        
 
     }
 
