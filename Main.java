@@ -43,7 +43,7 @@ public class Main {
         DISTANCE[8] = 4;
         DISTANCE[9] = 1;
         DISTANCE[10] = 2;
-        
+
     }
 
     private static int counterLocation = 11;
@@ -252,6 +252,7 @@ public class Main {
 
                 // REGISTER
                 case 2:
+                    choiceAdd = "User";
 
                     clearTerminal();
 
@@ -266,11 +267,7 @@ public class Main {
                     DATA[4][counterAccount] = sc.next();
                     noUser = counterAccount;
 
-                    DATA[0][counterAccount] = "U11" + counterUser;
-                    counterUser++;
-
-                    DATA[5][counterAccount] = ROLE[1];
-                    counterAccount++;
+                    IDAccount(choiceAdd);
 
                     clearTerminal();
 
@@ -655,13 +652,20 @@ public class Main {
 
                 for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
                     boolean isDataAccount = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[i]);
+                    boolean isArea = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[2]);
                     if (isDataAccount) {
                         System.out.println("+-----------------------------------+");
                         System.out.println("\t    Edit " + DATA_ACCOUNTS[i]);
                         System.out.println("+-----------------------------------+");
+                        if (isArea) {
+                            listArea();                            
+                        }
                         System.out.println("Enter new " + DATA_ACCOUNTS[i]);
                         System.out.print("--> ");
-                        DATA[i][getAccount(choiceAdmin)] = sc.nextLine();
+                        DATA[i][ID] = sc.nextLine();
+                        if (isArea) {
+                            assignLocation(DATA[i][ID]);
+                        }
                     }
                 }
 
@@ -715,16 +719,7 @@ public class Main {
 
         registerMenu();
 
-        if (choiceAdd.equalsIgnoreCase("Admin")) {
-            DATA[5][counterAccount] = ROLE[0];
-            DATA[0][counterAccount] = "A10" + counterAdmin;
-            counterAdmin++;
-        } else {
-            DATA[5][counterAccount] = ROLE[1];
-            DATA[0][counterAccount] = "U11" + counterUser;
-            counterUser++;
-        }
-        counterAccount++;
+        IDAccount(choiceAdd);
     }
 
     static void registerMenu() {
@@ -749,14 +744,8 @@ public class Main {
         DATA[3][counterAccount] = sc.nextLine();
 
         clearTerminal();
+        listArea();
 
-        System.out.println("+-----------------------------+");
-        for (int i = 0; i < counterLocation; i++) {
-            System.out.printf("%-10s %n", LOCATION[i]);
-            if (i % 5 == 0 && i != 0) {
-                System.out.println("+-----------------------------+");
-            }
-        }
         System.out.println("Enter your location ");
         System.out.print("--> ");
         String tempLoc = sc.nextLine();
@@ -767,10 +756,26 @@ public class Main {
     }
 
     static void assignLocation(String location) {
+        boolean isAdmin = DATA[5][noUser].equals(ROLE[0]);
         for (int i = 0; i < LOCATION.length; i++) {
             if (location.equalsIgnoreCase(LOCATION[i])) {
-                DATA[2][counterAccount] = LOCATION[i];
-                break;
+                if (isAdmin) {
+                    DATA[2][getAccount(choiceAdmin)] = LOCATION[i];
+                    break;
+                } else {
+                    DATA[2][counterAccount] = LOCATION[i];
+                    break;
+                }
+            }
+        }
+    }
+
+    static void listArea() {
+        System.out.println("+-----------------------------+");
+        for (int i = 0; i < counterLocation; i++) {
+            System.out.printf("%-10s %n", LOCATION[i]);
+            if (i % 5 == 0 && i != 0) {
+                System.out.println("+-----------------------------+");
             }
         }
     }
@@ -779,6 +784,8 @@ public class Main {
         System.out.println();
         System.out.println("\"add\"" + "\t\t\t" + "To add new account");
         System.out.println("\"0\"" + "\t\t\t" + "To go back to main menu");
+        System.out.println("\"help\"" + "\t\t\t" + "To get help");
+        System.out.println("\"A101\"" + "\t\t\t" + "To access user (Use different ID)");
         System.out.print("--> ");
         choiceAdmin = sc.nextLine();
 
@@ -796,5 +803,18 @@ public class Main {
         } else {
             editAccount(getAccount(choose));
         }
+    }
+
+    static void IDAccount(String account) {
+        if (account.equalsIgnoreCase("Admin")) {
+            DATA[5][counterAccount] = ROLE[0];
+            DATA[0][counterAccount] = "A10" + counterAdmin;
+            counterAdmin++;
+        } else {
+            DATA[5][counterAccount] = ROLE[1];
+            DATA[0][counterAccount] = "U11" + counterUser;
+            counterUser++;
+        }
+        counterAccount++;
     }
 }
