@@ -9,19 +9,44 @@ public class Main {
 
     private static final String[] ROLE = { "Admin", "User" };
     private static final String[] ACCOUNTS = { "Username", "Password" };
-    private static final String[] DATA_ACCOUNTS = { "ID", "Name", "Address", "Number", "Member", "Role" };
+    private static final String[] DATA_ACCOUNTS = { "ID", "Name", "Area", "Number", "Member", "Role" };
 
     private static final String[] HOME = { "", "Donate Trash", "Voucher", "History", "Profile", "Logout" };
     private static final String[] ADMIN = { "", "Account", "Trash List", "Logout" };
     private static final String[] MENU_VOUCHER = { "", "Redeem", "Points", "Back" };
     private static final String[] TYPE_TRASH = { "", "Inorganic Trash", "Organic Trash" };
 
-    private static final String[] LOCATION = new String[10];
-    private static final int[] DISTANCE = new int[10];
+    private static final String[] LOCATION = new String[15];
+    private static final int[] DISTANCE = new int[15];
 
     static {
-        
+        LOCATION[0] = "Bakalankrajan";
+        LOCATION[1] = "Bandulan";
+        LOCATION[2] = "Bandungrejosari";
+        LOCATION[3] = "Ciptomulyo";
+        LOCATION[4] = "Gadang";
+        LOCATION[5] = "Karangbesuki";
+        LOCATION[6] = "Kebonsari";
+        LOCATION[7] = "Mulyorejo";
+        LOCATION[8] = "Pisangcandi";
+        LOCATION[9] = "Sukun";
+        LOCATION[10] = "Tanjungrejo";
+
+        DISTANCE[0] = 2;
+        DISTANCE[1] = 4;
+        DISTANCE[2] = 1;
+        DISTANCE[3] = 2;
+        DISTANCE[4] = 5;
+        DISTANCE[5] = 6;
+        DISTANCE[6] = 4;
+        DISTANCE[7] = 5;
+        DISTANCE[8] = 4;
+        DISTANCE[9] = 1;
+        DISTANCE[10] = 2;
+
     }
+
+    private static int counterLocation = 11;
 
     private static final String[] USERNAME = new String[20];
     private static final String[] PASSWORD = new String[20];
@@ -58,11 +83,11 @@ public class Main {
         DATA[1][3] = "Ahmad Adzin";
         DATA[1][4] = "Admin";
 
-        // Address
+        // Area
         DATA[2][0] = "default";
-        DATA[2][1] = "Sukun";
-        DATA[2][2] = "Polehan";
-        DATA[2][3] = "Gadang";
+        DATA[2][1] = LOCATION[9];
+        DATA[2][2] = LOCATION[6];
+        DATA[2][3] = LOCATION[4];
         DATA[2][4] = "-";
 
         // Number
@@ -98,6 +123,7 @@ public class Main {
     }
 
     private static int counterAdmin = 2;
+    private static int counterUser = 4;
     private static int counterAccount = 5;
 
     private static final String[] INORGANIC_TRASH = new String[10];
@@ -226,12 +252,12 @@ public class Main {
 
                 // REGISTER
                 case 2:
+                    choiceAdd = "User";
 
                     clearTerminal();
 
                     System.out.println("+-----------------------------+");
                     System.out.println("|           SIGN IN           |");
-                    System.out.println("+-----------------------------+");
 
                     registerMenu();
 
@@ -239,19 +265,13 @@ public class Main {
                     System.out.println("You will get a discount if you sign up for a membership.");
                     System.out.print("(yes/no) : ");
                     DATA[4][counterAccount] = sc.next();
-
                     noUser = counterAccount;
 
-                    DATA[0][counterAccount] = "U11" + counterAccount;
-
-                    DATA[5][counterAccount] = ROLE[1];
-
-                    counterAccount++;
+                    IDAccount(choiceAdd);
 
                     clearTerminal();
 
                     break;
-
                 // EXIT
                 case 3:
                     return;
@@ -502,7 +522,7 @@ public class Main {
                             // BILL
                             System.out.println("+----------------------------------+");
                             System.out.println("  Name        : " + DATA[1][noUser]);
-                            System.out.println("  Address     : " + DATA[2][noUser]);
+                            System.out.println("  Area     : " + DATA[2][noUser]);
                             System.out.println("  Phone       : " + DATA[3][noUser]);
                             System.out.println("+----------------------------------+");
                             System.out.println("  " + TYPE_TRASH[choice2] + "");
@@ -632,13 +652,20 @@ public class Main {
 
                 for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
                     boolean isDataAccount = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[i]);
+                    boolean isArea = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[2]);
                     if (isDataAccount) {
                         System.out.println("+-----------------------------------+");
                         System.out.println("\t    Edit " + DATA_ACCOUNTS[i]);
                         System.out.println("+-----------------------------------+");
+                        if (isArea) {
+                            listArea();                            
+                        }
                         System.out.println("Enter new " + DATA_ACCOUNTS[i]);
                         System.out.print("--> ");
-                        DATA[i][getAccount(choiceAdmin)] = sc.nextLine();
+                        DATA[i][ID] = sc.nextLine();
+                        if (isArea) {
+                            assignLocation(DATA[i][ID]);
+                        }
                     }
                 }
 
@@ -692,22 +719,14 @@ public class Main {
 
         registerMenu();
 
-        if (choiceAdd.equalsIgnoreCase("Admin")) {
-            DATA[5][counterAccount] = ROLE[0];
-            DATA[0][counterAccount] = "A10" + counterAdmin;
-            counterAdmin++;
-        } else {
-            DATA[5][counterAccount] = ROLE[1];
-            DATA[0][counterAccount] = "U11" + counterAccount;
-        }
-        counterAccount++;
+        IDAccount(choiceAdd);
     }
 
     static void registerMenu() {
 
         // Username and Password
         for (int i = 0; i < ACCOUNTS.length; i++) {
-            System.out.println("+----------------------------+");
+            System.out.println("+-----------------------------+");
             System.out.println("Enter the " + ACCOUNTS[i]);
             System.out.print("--> ");
             ACCOUNT_PICKER[i][counterAccount] = sc.nextLine();
@@ -715,22 +734,58 @@ public class Main {
 
         clearTerminal();
 
-        for (int i = 1; i < 4; i++) {
-            System.out.println("+----------------------------+");
-            System.out.println("Enter the " + DATA_ACCOUNTS[i]);
-            System.out.print("--> ");
-            DATA[i][counterAccount] = sc.nextLine();
-        }
+        System.out.println("+-----------------------------+");
+        System.out.println("Enter your name ");
+        System.out.print("--> ");
+        DATA[1][counterAccount] = sc.nextLine();
+        System.out.println("+-----------------------------+");
+        System.out.println("Enter your phone number ");
+        System.out.print("--> ");
+        DATA[3][counterAccount] = sc.nextLine();
 
         clearTerminal();
-        
+        listArea();
 
+        System.out.println("Enter your location ");
+        System.out.print("--> ");
+        String tempLoc = sc.nextLine();
+
+        assignLocation(tempLoc);
+
+        clearTerminal();
+    }
+
+    static void assignLocation(String location) {
+        boolean isAdmin = DATA[5][noUser].equals(ROLE[0]);
+        for (int i = 0; i < LOCATION.length; i++) {
+            if (location.equalsIgnoreCase(LOCATION[i])) {
+                if (isAdmin) {
+                    DATA[2][getAccount(choiceAdmin)] = LOCATION[i];
+                    break;
+                } else {
+                    DATA[2][counterAccount] = LOCATION[i];
+                    break;
+                }
+            }
+        }
+    }
+
+    static void listArea() {
+        System.out.println("+-----------------------------+");
+        for (int i = 0; i < counterLocation; i++) {
+            System.out.printf("%-10s %n", LOCATION[i]);
+            if (i % 5 == 0 && i != 0) {
+                System.out.println("+-----------------------------+");
+            }
+        }
     }
 
     static void helpAdmin() {
         System.out.println();
         System.out.println("\"add\"" + "\t\t\t" + "To add new account");
         System.out.println("\"0\"" + "\t\t\t" + "To go back to main menu");
+        System.out.println("\"help\"" + "\t\t\t" + "To get help");
+        System.out.println("\"A101\"" + "\t\t\t" + "To access user (Use different ID)");
         System.out.print("--> ");
         choiceAdmin = sc.nextLine();
 
@@ -748,5 +803,18 @@ public class Main {
         } else {
             editAccount(getAccount(choose));
         }
+    }
+
+    static void IDAccount(String account) {
+        if (account.equalsIgnoreCase("Admin")) {
+            DATA[5][counterAccount] = ROLE[0];
+            DATA[0][counterAccount] = "A10" + counterAdmin;
+            counterAdmin++;
+        } else {
+            DATA[5][counterAccount] = ROLE[1];
+            DATA[0][counterAccount] = "U11" + counterUser;
+            counterUser++;
+        }
+        counterAccount++;
     }
 }
