@@ -789,7 +789,7 @@ public class Main {
     static int checkDistance(int ID) {
         int distanceUser = 0;
         for (int i = 0; i < LOCATION.length; i++) {
-            if (DATA[2][noUser].contains(LOCATION[i])) {
+            if (DATA[2][ID].contains(LOCATION[i])) {
                 distanceUser = i;
                 break;
             }
@@ -797,15 +797,6 @@ public class Main {
         return distanceUser;
     }
 
-    static void listArea() {
-        System.out.println("+-----------------------------+");
-        for (int i = 0; i < counterLocation; i++) {
-            System.out.printf("%-10s %n", LOCATION[i]);
-            if (i % 5 == 0 && i != 0) {
-                System.out.println("+-----------------------------+");
-            }
-        }
-    }
 
     static void helpAdmin() {
         System.out.println();
@@ -819,7 +810,7 @@ public class Main {
         commandAdmin(choiceAdmin);
 
     }
-
+    
     static void commandAdmin(String choose) {
         if (choose.equalsIgnoreCase("help")) {
             helpAdmin();
