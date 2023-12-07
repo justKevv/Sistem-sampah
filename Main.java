@@ -594,6 +594,28 @@ public class Main {
                             break;
 
                         case 4:
+                            System.out.println("+-------------------------+");
+                            System.out.println("|      User Profile       |");
+                            System.out.println("+-------------------------+");
+
+                            for (int i = 0; i < ACCOUNTS.length; i++) {
+                                System.out.println(
+                                        ACCOUNTS[i] + "\t: " + ACCOUNT_PICKER[i][noUser]);
+
+                            }
+                            System.out.println("+-------------------------+");
+                            for (int i = 1; i < 4; i++) {
+                                System.out.println(
+                                        DATA_ACCOUNTS[i] + "\t: " + DATA[i][noUser]);
+                            }
+                            System.out.println("+-------------------------+");
+                            if (DATA[4][noUser].equals("yes")) {
+                                System.out.println("Member is activated.");
+                            } else {
+                                System.out.println("Member is not activated. ");
+                            }
+
+                            System.exit(0);
                             break;
                     }
                 } while (choice1 != HOME.length - 1);
