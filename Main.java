@@ -116,10 +116,20 @@ public class Main {
 
     static {
         POINTS[0] = 0;
-        POINTS[1] = 300;
+        POINTS[1] = 500;
         POINTS[2] = 350;
         POINTS[3] = 500;
         POINTS[4] = 0;
+    }
+
+    private static final int[] freeVoucher = new int[20];
+
+    static {
+        freeVoucher[0] = 0;
+        freeVoucher[1] = 2;
+        freeVoucher[2] = 3;
+        freeVoucher[3] = 2;
+        freeVoucher[4] = 0;
     }
 
     private static int counterAdmin = 2;
@@ -520,6 +530,7 @@ public class Main {
                             weightTrash = sc.nextInt();
                             System.out.print("Enter the quantity of the trash: ");
                             quantity = sc.nextInt();
+                            sc.nextLine();
 
                             totalTrash = weightTrash * PRICE_PICKER[choice2][chooseTrash];
                             shipping = DISTANCE[checkDistance(noUser)] * 1000;
@@ -535,8 +546,11 @@ public class Main {
 
                             clearTerminal();
 
+                            System.out.println("Do you want to use Voucher : ");
+                            String input = sc.nextLine();
+
                             // BILL
-                            printBill();
+                            printBill(input);
 
                             break;
 
@@ -546,6 +560,7 @@ public class Main {
                                 System.out.println("|\t\t VOUCHERS \t\t   |");
                                 System.out.println("+------------------------------------------+");
                                 System.out.println("Points : " + POINTS[noUser]);
+                                System.out.println("Voucher : " + freeVoucher[noUser]);
                                 System.out.println("+------------------------------------------+");
                                 System.out.println("What do you want to do?");
                                 for (int i = 1; i < MENU_VOUCHER.length; i++) {
@@ -558,9 +573,14 @@ public class Main {
 
                                 switch (choice3) {
                                     case 1:
-
+                                        if (POINTS[noUser] >= 500) {
+                                            System.out.println("You can redeem your voucher");
+                                            freeVoucher[noUser]++;
+                                            POINTS[noUser] -= 500;
+                                        } else {
+                                            System.out.println("You don't have enough points to redeem");
+                                        }
                                         break;
-
                                     default:
                                         break;
                                 }
@@ -833,7 +853,7 @@ public class Main {
     }
 
     // Feature Bill
-    static void printBill() {
+    static void printBill(String input) {
         System.out.println("+----------------------------------+");
         System.out.println("  Name        : " + DATA[1][noUser]);
         System.out.println("  Area        : " + DATA[2][noUser]);
@@ -845,14 +865,25 @@ public class Main {
         System.out.println("  Weight       : " + weightTrash + " KG");
         System.out.println("  Quantity     : " + quantity);
         System.out.println("  Distance     : " + DISTANCE[checkDistance(noUser)] + " KM");
-        System.out.println("+----------------------------------+");
-        System.out.println("  Price        : Rp. " + totalTrash);
-        System.out.println("  Shipping Fee : Rp. " + shipping);
-        System.out.println("  Discount     : Rp. " + discount);
-        System.out.println("+----------------------------------+");
-        System.out.println("  Total Price  : Rp. " + finalPrice);
-        System.out.println("+----------------------------------+");
-        System.out.println();
+        if (input.equals("yes")) {
+            System.out.println("+----------------------------------+");
+            System.out.println("  Price        : Free ");
+            System.out.println("  Shipping Fee : Free ");
+            System.out.println("  Discount     : Free ");
+            System.out.println("+----------------------------------+");
+            System.out.println("  Total Price  : Free ");
+            System.out.println("+----------------------------------+");
+            System.out.println();
+        } else {
+            System.out.println("+----------------------------------+");
+            System.out.println("  Price        : Rp. " + totalTrash);
+            System.out.println("  Shipping Fee : Rp. " + shipping);
+            System.out.println("  Discount     : Rp. " + discount);
+            System.out.println("+----------------------------------+");
+            System.out.println("  Total Price  : Rp. " + finalPrice);
+            System.out.println("+----------------------------------+");
+            System.out.println();
+        }
 
         promptEnterKey();
 
