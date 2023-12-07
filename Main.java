@@ -56,14 +56,14 @@ public class Main {
         USERNAME[0] = "";
         USERNAME[1] = "kevv";
         USERNAME[2] = "seno1";
-        USERNAME[3] = "adzinnn";
+        USERNAME[3] = "adzin";
         USERNAME[4] = "admin";
 
         // Password
         PASSWORD[0] = "";
         PASSWORD[1] = "kevv";
         PASSWORD[2] = "seno1";
-        PASSWORD[3] = "adzinnn";
+        PASSWORD[3] = "adzin";
         PASSWORD[4] = "admin";
     }
 
