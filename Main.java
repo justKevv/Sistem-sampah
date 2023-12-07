@@ -12,7 +12,7 @@ public class Main {
     private static final String[] DATA_ACCOUNTS = { "ID", "Name", "Area", "Number", "Member", "Role" };
 
     private static final String[] HOME = { "", "Donate Trash", "Voucher", "History", "Profile", "Logout" };
-    private static final String[] ADMIN = { "", "Account", "Trash List", "Logout" };
+    private static final String[] ADMIN = { "", "Account", "Trash List", "Location", "Logout" };
     private static final String[] MENU_VOUCHER = { "", "Redeem", "Points", "Back" };
     private static final String[] TYPE_TRASH = { "", "Inorganic Trash", "Organic Trash" };
 
@@ -178,12 +178,12 @@ public class Main {
 
     private static String inputUsername, inputPassword;
     private static int chooseTrash;
-    private static int weightTrash, quantity, distance;
+    private static int weightTrash, quantity;
     private static int totalTrash, shipping, discount, finalPrice;
 
     private static int choice, choice1, choice2, choice3;
     private static String choiceAdmin, choiceAdd;
-    private static String choiceEdit, choiceTrash;
+    private static String choiceEdit, choiceTrash, choiceLocation;
     private static int noUser = 0;
 
     public static void main(String[] args) {
@@ -374,6 +374,24 @@ public class Main {
                             } while (!choiceTrash.equals("0"));
                             break;
                         case 3:
+                            do {
+                                System.out.println(
+                                        "+----------------------------------------+");
+                                System.out.printf("%-20s | %-20s%n", "Location", "Distance");
+                                System.out.println(
+                                        "+----------------------------------------+");
+                                for (int i = 0; i < counterLocation; i++) {
+                                    System.out.printf("%-20s | %-20s%n", LOCATION[i],
+                                            DISTANCE[i]);                                    
+                                }
+                                System.out.println(
+                                        "+----------------------------------------+");
+                                System.out.println("Use 0 to go back to main menu.");
+                                System.out.print("--> ");
+                                choiceLocation = sc.nextLine();
+
+                            } while (!choiceLocation.equals("0"));
+                        case 4:
                             break;
                     }
 
@@ -502,11 +520,9 @@ public class Main {
                             weightTrash = sc.nextInt();
                             System.out.print("Enter the quantity of the trash: ");
                             quantity = sc.nextInt();
-                            System.out.print("Enter your distances (KM): ");
-                            distance = sc.nextInt();
 
                             totalTrash = weightTrash * PRICE_PICKER[choice2][chooseTrash];
-                            shipping = distance * 1000;
+                            shipping = DISTANCE[checkDistance(noUser)] * 1000;
                             discount = quantity * VALUE_PICKER[choice2][chooseTrash];
 
                             if (DATA[4][noUser].equals("yes")) {
@@ -530,7 +546,7 @@ public class Main {
                             System.out.println("  " + TRASH_PICKER[choice2][chooseTrash] + " Type ");
                             System.out.println("  Weight       : " + weightTrash + " KG");
                             System.out.println("  Quantity     : " + quantity);
-                            System.out.println("  Distance     : " + distance + " KM");
+                            System.out.println("  Distance     : " + DISTANCE[checkDistance(noUser)] + " KM");
                             System.out.println("+----------------------------------+");
                             System.out.println("  Price        : Rp. " + totalTrash);
                             System.out.println("  Shipping Fee : Rp. " + shipping);
@@ -658,7 +674,7 @@ public class Main {
                         System.out.println("\t    Edit " + DATA_ACCOUNTS[i]);
                         System.out.println("+-----------------------------------+");
                         if (isArea) {
-                            listArea();                            
+                            listArea();
                         }
                         System.out.println("Enter new " + DATA_ACCOUNTS[i]);
                         System.out.print("--> ");
@@ -768,6 +784,17 @@ public class Main {
                 }
             }
         }
+    }
+
+    static int checkDistance(int ID) {
+        int distanceUser = 0;
+        for (int i = 0; i < LOCATION.length; i++) {
+            if (DATA[2][noUser].contains(LOCATION[i])) {
+                distanceUser = i;
+                break;
+            }
+        }
+        return distanceUser;
     }
 
     static void listArea() {
