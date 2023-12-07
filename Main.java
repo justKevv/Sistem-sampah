@@ -382,7 +382,7 @@ public class Main {
                                         "+----------------------------------------+");
                                 for (int i = 0; i < counterLocation; i++) {
                                     System.out.printf("%-20s | %-20s%n", LOCATION[i],
-                                            DISTANCE[i]);                                    
+                                            DISTANCE[i]);
                                 }
                                 System.out.println(
                                         "+----------------------------------------+");
@@ -536,29 +536,7 @@ public class Main {
                             clearTerminal();
 
                             // BILL
-                            System.out.println("+----------------------------------+");
-                            System.out.println("  Name        : " + DATA[1][noUser]);
-                            System.out.println("  Area     : " + DATA[2][noUser]);
-                            System.out.println("  Phone       : " + DATA[3][noUser]);
-                            System.out.println("+----------------------------------+");
-                            System.out.println("  " + TYPE_TRASH[choice2] + "");
-                            System.out.println("+----------------------------------+");
-                            System.out.println("  " + TRASH_PICKER[choice2][chooseTrash] + " Type ");
-                            System.out.println("  Weight       : " + weightTrash + " KG");
-                            System.out.println("  Quantity     : " + quantity);
-                            System.out.println("  Distance     : " + DISTANCE[checkDistance(noUser)] + " KM");
-                            System.out.println("+----------------------------------+");
-                            System.out.println("  Price        : Rp. " + totalTrash);
-                            System.out.println("  Shipping Fee : Rp. " + shipping);
-                            System.out.println("  Discount     : Rp. " + discount);
-                            System.out.println("+----------------------------------+");
-                            System.out.println("  Total Price  : Rp. " + finalPrice);
-                            System.out.println("+----------------------------------+");
-                            System.out.println();
-
-                            promptEnterKey();
-
-                            clearTerminal();
+                            printBill();
 
                             break;
 
@@ -717,6 +695,7 @@ public class Main {
         }
     }
 
+    // Feature to Add Account
     static void addAccount() {
 
         clearTerminal();
@@ -738,6 +717,7 @@ public class Main {
         IDAccount(choiceAdd);
     }
 
+    // Feature for Registering Menu
     static void registerMenu() {
 
         // Username and Password
@@ -771,6 +751,7 @@ public class Main {
         clearTerminal();
     }
 
+    // Feature to assign location for the user ID
     static void assignLocation(String location) {
         boolean isAdmin = DATA[5][noUser].equals(ROLE[0]);
         for (int i = 0; i < LOCATION.length; i++) {
@@ -786,10 +767,11 @@ public class Main {
         }
     }
 
+    // Feature to check the user distance by their user ID
     static int checkDistance(int ID) {
         int distanceUser = 0;
         for (int i = 0; i < LOCATION.length; i++) {
-            if (DATA[2][noUser].contains(LOCATION[i])) {
+            if (DATA[2][ID].contains(LOCATION[i])) {
                 distanceUser = i;
                 break;
             }
@@ -797,7 +779,9 @@ public class Main {
         return distanceUser;
     }
 
+    // Feature to show list area that can be reached out by the expeditions
     static void listArea() {
+        System.out.println(" We are based in Trash Bank Sukun Malang");
         System.out.println("+-----------------------------+");
         for (int i = 0; i < counterLocation; i++) {
             System.out.printf("%-10s %n", LOCATION[i]);
@@ -807,6 +791,7 @@ public class Main {
         }
     }
 
+    // Feature to show exact command admin purposes
     static void helpAdmin() {
         System.out.println();
         System.out.println("\"add\"" + "\t\t\t" + "To add new account");
@@ -820,6 +805,7 @@ public class Main {
 
     }
 
+    // Feature Command Admin
     static void commandAdmin(String choose) {
         if (choose.equalsIgnoreCase("help")) {
             helpAdmin();
@@ -832,6 +818,7 @@ public class Main {
         }
     }
 
+    // Feature Assign New Id
     static void IDAccount(String account) {
         if (account.equalsIgnoreCase("Admin")) {
             DATA[5][counterAccount] = ROLE[0];
@@ -843,5 +830,32 @@ public class Main {
             counterUser++;
         }
         counterAccount++;
+    }
+
+    // Feature Bill
+    static void printBill() {
+        System.out.println("+----------------------------------+");
+        System.out.println("  Name        : " + DATA[1][noUser]);
+        System.out.println("  Area        : " + DATA[2][noUser]);
+        System.out.println("  Phone       : " + DATA[3][noUser]);
+        System.out.println("+----------------------------------+");
+        System.out.println("  " + TYPE_TRASH[choice2] + "");
+        System.out.println("+----------------------------------+");
+        System.out.println("  " + TRASH_PICKER[choice2][chooseTrash] + " Type ");
+        System.out.println("  Weight       : " + weightTrash + " KG");
+        System.out.println("  Quantity     : " + quantity);
+        System.out.println("  Distance     : " + DISTANCE[checkDistance(noUser)] + " KM");
+        System.out.println("+----------------------------------+");
+        System.out.println("  Price        : Rp. " + totalTrash);
+        System.out.println("  Shipping Fee : Rp. " + shipping);
+        System.out.println("  Discount     : Rp. " + discount);
+        System.out.println("+----------------------------------+");
+        System.out.println("  Total Price  : Rp. " + finalPrice);
+        System.out.println("+----------------------------------+");
+        System.out.println();
+
+        promptEnterKey();
+
+        clearTerminal();
     }
 }
