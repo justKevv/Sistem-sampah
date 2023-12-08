@@ -105,7 +105,7 @@ public class Main {
         DATA[4][4] = "-";
 
         // Role
-        DATA[5][0] = ROLE[0];
+        DATA[5][0] = ROLE[1];
         DATA[5][1] = ROLE[1];
         DATA[5][2] = ROLE[1];
         DATA[5][3] = ROLE[1];
@@ -793,21 +793,21 @@ public class Main {
         clearTerminal();
     }
 
-    // Feature to assign location for the user ID
-    static void assignLocation(String location) {
-        boolean isAdmin = DATA[5][noUser].equals(ROLE[0]);
-        for (int i = 0; i < LOCATION.length; i++) {
-            if (location.equalsIgnoreCase(LOCATION[i])) {
-                if (isAdmin) {
-                    DATA[2][getAccount(choiceAdmin)] = LOCATION[i];
-                    break;
-                } else {
-                    DATA[2][counterAccount] = LOCATION[i];
-                    break;
-                }
+// Assigns a location for a given user ID
+static void assignLocation(String location) {
+    boolean isAdmin = DATA[5][noUser].equals(ROLE[0]);
+    for (int i = 0; i < LOCATION.length; i++) {
+        if (location.equalsIgnoreCase(LOCATION[i])) {
+            if (isAdmin) {
+                DATA[2][getAccount(choiceAdmin)] = LOCATION[i];
+            } else {
+                DATA[2][counterAccount] = LOCATION[i];
             }
+            
+            break;
         }
     }
+}
 
     // Feature to check the user distance by their user ID
     static int checkDistance(int ID) {
