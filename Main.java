@@ -7,7 +7,7 @@ public class Main {
 
     static Scanner sc = new Scanner(System.in);
 
-    private static final String[] ROLE = { "Admin", "User" };
+    private static final String[] ROLE = { "Admin", "User", "Test" };
     private static final String[] ACCOUNTS = { "Username", "Password" };
     private static final String[] DATA_ACCOUNTS = { "ID", "Name", "Area", "Number", "Member", "Role" };
 
@@ -105,7 +105,7 @@ public class Main {
         DATA[4][4] = "-";
 
         // Role
-        DATA[5][0] = ROLE[1];
+        DATA[5][0] = ROLE[2];
         DATA[5][1] = ROLE[1];
         DATA[5][2] = ROLE[1];
         DATA[5][3] = ROLE[1];
@@ -122,14 +122,14 @@ public class Main {
         POINTS[4] = 0;
     }
 
-    private static final int[] freeVoucher = new int[20];
+    private static final int[] FREE_VOUCHER = new int[20];
 
     static {
-        freeVoucher[0] = 0;
-        freeVoucher[1] = 2;
-        freeVoucher[2] = 3;
-        freeVoucher[3] = 2;
-        freeVoucher[4] = 0;
+        FREE_VOUCHER[0] = 0;
+        FREE_VOUCHER[1] = 2;
+        FREE_VOUCHER[2] = 3;
+        FREE_VOUCHER[3] = 2;
+        FREE_VOUCHER[4] = 0;
     }
 
     private static int counterAdmin = 2;
@@ -192,8 +192,8 @@ public class Main {
     private static int totalTrash, shipping, discount, finalPrice;
 
     private static int choice, choice1, choice2, choice3;
-    private static String choiceAdmin, choiceAdd;
-    private static String choiceEdit, choiceTrash, choiceLocation;
+    private static String choiceAdmin, choiceAdd = "User", choice4 = "no";
+    private static String choiceEdit, choiceTrash, choiceLocation, choiceProfile;
     private static int noUser = 0;
 
     public static void main(String[] args) {
@@ -262,7 +262,6 @@ public class Main {
 
                 // REGISTER
                 case 2:
-                    choiceAdd = "User";
 
                     clearTerminal();
 
@@ -407,7 +406,6 @@ public class Main {
 
                 } while (choice1 != (ADMIN.length - 1));
             } else {
-
                 // USER MENU
                 do {
                     System.out.println("+------------------------------------------+");
@@ -546,11 +544,14 @@ public class Main {
 
                             clearTerminal();
 
-                            System.out.println("Do you want to use Voucher : ");
-                            String input = sc.nextLine();
-
+                            if (FREE_VOUCHER[noUser] > 0) {
+                                System.out.println("You currently have " + FREE_VOUCHER[noUser] + " voucher");
+                                System.out.println("Do you want to use your voucher ? (yes/no)");
+                                System.out.print("-->");
+                                choice4 = sc.nextLine();
+                            }
                             // BILL
-                            printBill(input);
+                            printBill(choice4);
 
                             break;
 
@@ -560,7 +561,7 @@ public class Main {
                                 System.out.println("|\t\t VOUCHERS \t\t   |");
                                 System.out.println("+------------------------------------------+");
                                 System.out.println("Points : " + POINTS[noUser]);
-                                System.out.println("Voucher : " + freeVoucher[noUser]);
+                                System.out.println("Voucher : " + FREE_VOUCHER[noUser]);
                                 System.out.println("+------------------------------------------+");
                                 System.out.println("What do you want to do?");
                                 for (int i = 1; i < MENU_VOUCHER.length; i++) {
@@ -574,8 +575,8 @@ public class Main {
                                 switch (choice3) {
                                     case 1:
                                         if (POINTS[noUser] >= 500) {
-                                            System.out.println("You can redeem your voucher");
-                                            freeVoucher[noUser]++;
+                                            System.out.println("You have redeem your voucher");
+                                            FREE_VOUCHER[noUser]++;
                                             POINTS[noUser] -= 500;
                                         } else {
                                             System.out.println("You don't have enough points to redeem");
@@ -594,28 +595,38 @@ public class Main {
                             break;
 
                         case 4:
-                            System.out.println("+-------------------------+");
-                            System.out.println("|      User Profile       |");
-                            System.out.println("+-------------------------+");
+                            do {
+                                System.out.println("+-------------------------+");
+                                System.out.println("|      User Profile       |");
+                                System.out.println("+-------------------------+");
 
-                            for (int i = 0; i < ACCOUNTS.length; i++) {
-                                System.out.println(
-                                        ACCOUNTS[i] + "\t: " + ACCOUNT_PICKER[i][noUser]);
+                                for (int i = 0; i < ACCOUNTS.length; i++) {
+                                    System.out.println(
+                                            ACCOUNTS[i] + ": " + ACCOUNT_PICKER[i][noUser]);
 
-                            }
-                            System.out.println("+-------------------------+");
-                            for (int i = 1; i < 4; i++) {
-                                System.out.println(
-                                        DATA_ACCOUNTS[i] + "\t: " + DATA[i][noUser]);
-                            }
-                            System.out.println("+-------------------------+");
-                            if (DATA[4][noUser].equals("yes")) {
-                                System.out.println("Member is activated.");
-                            } else {
-                                System.out.println("Member is not activated. ");
-                            }
+                                }
+                                System.out.println("+-------------------------+");
+                                for (int i = 1; i < 4; i++) {
+                                    System.out.println(
+                                            DATA_ACCOUNTS[i] + "\t: " + DATA[i][noUser]);
+                                }
+                                System.out.println("+-------------------------+");
+                                if (DATA[4][noUser].equals("yes")) {
+                                    System.out.println("Member is activated.");
+                                } else {
+                                    System.out.println("Member is not activated. ");
+                                }
+                                System.out.println("+-------------------------+");
+                                System.out.println("Type \"Setting\" to edit your profile");
+                                System.out.print("--> ");
+                                choiceProfile = sc.nextLine();
 
-                            System.exit(0);
+                                clearTerminal();
+
+                                editProfile(choiceProfile);
+
+                            } while (!choiceProfile.equals("0"));
+
                             break;
                     }
                 } while (choice1 != HOME.length - 1);
@@ -660,6 +671,83 @@ public class Main {
         return validCredentials;
     }
 
+    static void editProfile(String setting) {
+        if (setting.equalsIgnoreCase("setting")) {
+            do {
+                clearTerminal();
+
+                System.out
+                        .println("+---------------------------------------------------------+");
+                for (int i = 0; i < ACCOUNTS.length; i++) {
+                    System.out.println(
+                            ACCOUNTS[i] + "\t: " + ACCOUNT_PICKER[i][noUser]);
+                }
+                System.out
+                        .println("+---------------------------------------------------------+");
+                for (int i = 1; i < 4; i++) {
+                    System.out.println(
+                            DATA_ACCOUNTS[i] + "\t: " + DATA[i][noUser]);
+                }
+                System.out
+                        .println("+--------------------------------------------------------+");
+                System.out.println("Use 0 to go back to main menu.");
+                System.out.println("Which one you want to edit : ");
+                System.out.print("--> ");
+                choiceEdit = sc.nextLine();
+
+                clearTerminal();
+
+                for (int i = 1; i < 4; i++) {
+                    boolean isDataAccount = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[i]);
+                    boolean isArea = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[2]);
+                    if (isDataAccount) {
+                        System.out.println("+-----------------------------------+");
+                        System.out.println("\t    Edit " + DATA_ACCOUNTS[i]);
+                        System.out.println("+-----------------------------------+");
+                        if (isArea) {
+                            listArea();
+                        }
+                        System.out.println("Enter new " + DATA_ACCOUNTS[i]);
+                        System.out.print("--> ");
+                        DATA[i][noUser] = sc.nextLine();
+                        if (isArea) {
+                            assignLocation(DATA[i][noUser]);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < ACCOUNT_PICKER.length; i++) {
+                    boolean isAccount = choiceEdit.equalsIgnoreCase(ACCOUNTS[i]);
+                    if (isAccount) {
+                        System.out.println("+-------------------------------------------+");
+                        System.out.println("Are you sure you want to edit the "
+                                + ACCOUNTS[i] + " ?");
+                        System.out.println("+-------------------------------------------+");
+                        System.out.println(
+                                "Warning: this will lead user to unable to access the account.");
+                        System.out.print("yes/no : ");
+                        choiceEdit = sc.nextLine();
+
+                        if (choiceEdit.equalsIgnoreCase("yes")) {
+                            System.out.println("+-----------------------------------+");
+                            System.out.println("\t    Edit " + ACCOUNTS[i]);
+                            System.out.println("+-----------------------------------+");
+                            System.out.println("Enter new " + ACCOUNTS[i]);
+                            System.out.print("--> ");
+                            ACCOUNT_PICKER[i][noUser] = sc.nextLine();
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                clearTerminal();
+
+            } while (!choiceEdit.equals("0"));
+
+        }
+    }
+
     static void editAccount(int ID) {
         if (!choiceAdmin.isEmpty()) {
             do {
@@ -673,7 +761,7 @@ public class Main {
                 }
                 System.out
                         .println("+---------------------------------------------------------+");
-                for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
+                for (int i = 1; i < DATA_ACCOUNTS.length; i++) {
                     System.out.println(
                             DATA_ACCOUNTS[i] + "\t: " + DATA[i][ID]);
                 }
@@ -686,7 +774,7 @@ public class Main {
 
                 clearTerminal();
 
-                for (int i = 0; i < DATA_ACCOUNTS.length; i++) {
+                for (int i = 1; i < DATA_ACCOUNTS.length; i++) {
                     boolean isDataAccount = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[i]);
                     boolean isArea = choiceEdit.equalsIgnoreCase(DATA_ACCOUNTS[2]);
                     if (isDataAccount) {
@@ -793,21 +881,24 @@ public class Main {
         clearTerminal();
     }
 
-// Assigns a location for a given user ID
-static void assignLocation(String location) {
-    boolean isAdmin = DATA[5][noUser].equals(ROLE[0]);
-    for (int i = 0; i < LOCATION.length; i++) {
-        if (location.equalsIgnoreCase(LOCATION[i])) {
-            if (isAdmin) {
-                DATA[2][getAccount(choiceAdmin)] = LOCATION[i];
-            } else {
-                DATA[2][counterAccount] = LOCATION[i];
+    // Assigns a location for a given user ID
+    static void assignLocation(String location) {
+        boolean isAdmin = DATA[5][noUser].equals(ROLE[0]);
+        boolean isCurrentUser = DATA[5][noUser].equals(ROLE[1]);
+        boolean isNewUser = DATA[5][noUser].equals(ROLE[2]);
+        for (int i = 0; i < LOCATION.length; i++) {
+            if (location.equalsIgnoreCase(LOCATION[i])) {
+                if (isAdmin) {
+                    DATA[2][getAccount(choiceAdmin)] = LOCATION[i];
+                } else if (isCurrentUser) {
+                    DATA[2][noUser] = LOCATION[i];
+                } else  if (isNewUser) {
+                    DATA[2][counterAccount] = LOCATION[i];
+                }
+                break;
             }
-            
-            break;
         }
     }
-}
 
     // Feature to check the user distance by their user ID
     static int checkDistance(int ID) {
@@ -911,4 +1002,5 @@ static void assignLocation(String location) {
 
         clearTerminal();
     }
+
 }
