@@ -710,6 +710,16 @@ public class Main {
                         System.out.println("Enter new " + DATA_ACCOUNTS[i]);
                         System.out.print("--> ");
                         DATA[i][noUser] = sc.nextLine();
+
+                        while (!checkLocation(DATA[i][noUser])) {
+                            if (isArea) {
+                                listArea();
+                            }
+                            System.out.println("Enter new " + DATA_ACCOUNTS[i]);
+                            System.out.print("--> ");
+                            DATA[i][noUser] = sc.nextLine();
+                        }
+
                         if (isArea) {
                             assignLocation(DATA[i][noUser]);
                         }
@@ -787,6 +797,17 @@ public class Main {
                         System.out.println("Enter new " + DATA_ACCOUNTS[i]);
                         System.out.print("--> ");
                         DATA[i][ID] = sc.nextLine();
+
+                        while (!checkLocation(DATA[i][ID])) {
+                            if (isArea) {
+                                listArea();
+                            }
+                            System.out.println("+-----------------------------------+");
+                            System.out.println("Enter new " + DATA_ACCOUNTS[i]);
+                            System.out.print("--> ");
+                            DATA[i][ID] = sc.nextLine();
+                        }
+
                         if (isArea) {
                             assignLocation(DATA[i][ID]);
                         }
@@ -876,9 +897,27 @@ public class Main {
         System.out.print("--> ");
         String tempLoc = sc.nextLine();
 
+        while (!checkLocation(tempLoc)) {
+            clearTerminal();
+            listArea();
+
+            System.out.println("Enter your location ");
+            System.out.print("--> ");
+            tempLoc = sc.nextLine();
+        }
+
         assignLocation(tempLoc);
 
         clearTerminal();
+    }
+
+    static boolean checkLocation(String location) {
+        for (int i = 0; i < LOCATION.length; i++) {
+            if (location.equalsIgnoreCase(LOCATION[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Assigns a location for a given user ID
