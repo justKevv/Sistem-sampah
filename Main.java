@@ -262,7 +262,7 @@ public class Main {
 
                 // REGISTER
                 case 2:
-
+                    noUser = 0;
                     clearTerminal();
 
                     System.out.println("+-----------------------------+");
@@ -637,7 +637,7 @@ public class Main {
     }
 
     static int getAccount(String Id) {
-        int noUser = -1;
+        int noUser = 0;
         for (int i = 0; i < DATA[0].length; i++) {
             if (DATA[0][i].toLowerCase().contains(Id.toLowerCase())) {
                 noUser = i;
@@ -711,13 +711,15 @@ public class Main {
                         System.out.print("--> ");
                         DATA[i][noUser] = sc.nextLine();
 
-                        while (!checkLocation(DATA[i][noUser])) {
-                            if (isArea) {
-                                listArea();
+                        if (isArea) {
+                            while (!checkLocation(DATA[i][noUser])) {
+                                if (isArea) {
+                                    listArea();
+                                }
+                                System.out.println("Enter new " + DATA_ACCOUNTS[i]);
+                                System.out.print("--> ");
+                                DATA[i][noUser] = sc.nextLine();
                             }
-                            System.out.println("Enter new " + DATA_ACCOUNTS[i]);
-                            System.out.print("--> ");
-                            DATA[i][noUser] = sc.nextLine();
                         }
 
                         if (isArea) {
@@ -798,14 +800,20 @@ public class Main {
                         System.out.print("--> ");
                         DATA[i][ID] = sc.nextLine();
 
-                        while (!checkLocation(DATA[i][ID])) {
-                            if (isArea) {
-                                listArea();
+                        if (isArea) {
+                            while (!checkLocation(DATA[i][ID])) {
+                                clearTerminal();
+                                System.out.println("+-----------------------------------+");
+                                System.out.println("\t    Edit " + DATA_ACCOUNTS[i]);
+                                System.out.println("+-----------------------------------+");
+                                if (isArea) {
+                                    listArea();
+                                }
+                                System.out.println("Enter new " + DATA_ACCOUNTS[i]);
+                                System.out.print("--> ");
+                                DATA[i][ID] = sc.nextLine();
                             }
-                            System.out.println("+-----------------------------------+");
-                            System.out.println("Enter new " + DATA_ACCOUNTS[i]);
-                            System.out.print("--> ");
-                            DATA[i][ID] = sc.nextLine();
+
                         }
 
                         if (isArea) {
@@ -855,15 +863,34 @@ public class Main {
         System.out.println("\t Add new account    ");
         System.out.println("+-----------------------------------+");
         System.out.print("Select account type (");
-        for (int i = 0; i < ROLE.length; i++) {
-            System.out.print((i == ROLE.length - 1) ? ROLE[i] : ROLE[i] + "/");
+        for (int i = 0; i < 2; i++) {
+            System.out.print((i == 2 - 1) ? ROLE[i] : ROLE[i] + "/");
         }
         System.out.print("): ");
         choiceAdd = sc.nextLine();
 
         clearTerminal();
 
-        registerMenu();
+        // Username and Password
+        for (int i = 0; i < ACCOUNTS.length; i++) {
+            System.out.println("+-----------------------------+");
+            System.out.println("Enter the " + ACCOUNTS[i]);
+            System.out.print("--> ");
+            ACCOUNT_PICKER[i][counterAccount] = sc.nextLine();
+        }
+
+        clearTerminal();
+
+        System.out.println("+-----------------------------+");
+        System.out.println("Enter your name ");
+        System.out.print("--> ");
+        DATA[1][counterAccount] = sc.nextLine();
+        System.out.println("+-----------------------------+");
+        System.out.println("Enter your phone number ");
+        System.out.print("--> ");
+        DATA[3][counterAccount] = sc.nextLine();
+
+        clearTerminal();
 
         IDAccount(choiceAdd);
     }
@@ -931,7 +958,7 @@ public class Main {
                     DATA[2][getAccount(choiceAdmin)] = LOCATION[i];
                 } else if (isCurrentUser) {
                     DATA[2][noUser] = LOCATION[i];
-                } else  if (isNewUser) {
+                } else if (isNewUser) {
                     DATA[2][counterAccount] = LOCATION[i];
                 }
                 break;
