@@ -180,6 +180,10 @@ public class Main {
 
     private static int trashCount = 4;
 
+    private static final int[] WEIGHT_HISTORY = new int[20];
+    private static final int[][] ORGANIC_HISTORY = new int[20][trashCount];
+    private static final int[][] INORGANIC_HISTORY = new int[20][trashCount];
+
     private static final String[][] TRASH_PICKER = { null, INORGANIC_TRASH, ORGANIC_TRASH };
     private static final int[][] PRICE_PICKER = { null, PRICE_INORGANIC, PRICE_ORGANIC };
     private static final int[][] VALUE_PICKER = { null, VALUE_INORGANIC, VALUE_ORGANIC };
@@ -191,7 +195,7 @@ public class Main {
     private static int weightTrash, quantity;
     private static int totalTrash, shipping, discount, finalPrice;
 
-    private static int choice, choice1, choice2, choice3;
+    private static int choice, choice1, choice2, choice3, choiceHistory;
     private static String choiceAdmin, choiceAdd = "User", choice4 = "no";
     private static String choiceEdit, choiceTrash, choiceLocation, choiceProfile;
     private static int noUser = 0;
@@ -530,6 +534,10 @@ public class Main {
                             quantity = sc.nextInt();
                             sc.nextLine();
 
+                            WEIGHT_HISTORY[noUser] += weightTrash;
+                            AddHistory(choice2, chooseTrash, quantity);
+                            POINTS[noUser] += pointCalculate(choice) * quantity;
+
                             totalTrash = weightTrash * PRICE_PICKER[choice2][chooseTrash];
                             shipping = DISTANCE[checkDistance(noUser)] * 1000;
                             discount = quantity * VALUE_PICKER[choice2][chooseTrash];
@@ -592,12 +600,36 @@ public class Main {
 
                             break;
                         case 3:
+                            do {
+                                System.out.println("+----------------------------------------+");
+                                System.out.println("|                HISTORY                 |");
+                                System.out.println("+----------------------------------------+");
+                                System.out.println("You have donated " + WEIGHT_HISTORY[noUser] + " KG");
+                                System.out.println("+----------------------------------------+");
+
+                                System.out.printf("%-20s | %-20s%n", "Inorganic", "Organic");
+                                System.out.println("+----------------------------------------+");
+
+                                for (int i = 1; i < trashCount; i++) {
+                                    System.out.printf("%-10s | %-7s | %-10s | %-5s%n", INORGANIC_TRASH[i],
+                                            INORGANIC_HISTORY[noUser][i], ORGANIC_TRASH[i],
+                                            ORGANIC_HISTORY[noUser][i]);
+                                }
+                                System.out.println(
+                                        "+----------------------------------------+");
+                                System.out.println("Use 0 to go back to main menu.");
+                                System.out.print("--> ");
+                                choiceHistory = sc.nextInt();
+
+                                clearTerminal();
+
+                            } while (choiceHistory != 0);
                             break;
 
                         case 4:
                             do {
                                 System.out.println("+-------------------------+");
-                                System.out.println("|      User Profile       |");
+                                System.out.println("|         PROFILE         |");
                                 System.out.println("+-------------------------+");
 
                                 for (int i = 0; i < ACCOUNTS.length; i++) {
@@ -634,6 +666,32 @@ public class Main {
 
         } while (choice != 3);
 
+    }
+
+    static int pointCalculate(int choiceTrash) {
+        int point = 0;
+        switch (choiceTrash) {
+            case 1:
+                point = 2;
+                break;
+        
+            case 2:
+                point = 1;
+                break;
+        }
+        return point;
+    }
+
+    static void AddHistory(int typeTrash, int chooseTrash, int quant) {
+        switch (typeTrash) {
+            case 1:
+                INORGANIC_HISTORY[noUser][chooseTrash] += quant;
+                break;
+        
+            case 2:
+                ORGANIC_HISTORY[noUser][chooseTrash] += quant;
+                break;
+        }
     }
 
     static int getAccount(String Id) {
@@ -1033,6 +1091,7 @@ public class Main {
 
     // Feature Bill
     static void printBill(String input) {
+        clearTerminal();
         System.out.println("+----------------------------------+");
         System.out.println("  Name        : " + DATA[1][noUser]);
         System.out.println("  Area        : " + DATA[2][noUser]);
