@@ -180,7 +180,6 @@ public class Main {
 
     private static int trashCount = 4;
 
-            
     private static String[][] INORGANIC_SHOWN = new String[20][3];
     private static String[][] ORGANIC_SHOWN = new String[20][3];
 
@@ -687,10 +686,11 @@ public class Main {
 
     /**
      * Displays the items in the shopping cart.
-     * It separates the items into two categories: inorganic and organic trash, and then prints the details of each item.
+     * It separates the items into two categories: inorganic and organic trash, and
+     * then prints the details of each item.
      */
     static void showCart() {
-        
+
         switch (choice2) {
             case 1:
                 INORGANIC_SHOWN[inorganic][0] = TRASH_PICKER[choice2][chooseTrash];
@@ -734,7 +734,7 @@ public class Main {
                     System.out.println();
                 }
             }
-              System.out.println("+----------------------+");
+            System.out.println("+----------------------+");
         }
     }
 
@@ -1023,16 +1023,40 @@ public class Main {
         IDAccount(choiceAdd);
     }
 
+    static boolean isUsernameExist(String username) {
+        boolean exists = false;
+        for (int i = 0; i < counterAccount; i++) {
+            if (username.equals(USERNAME[i])) {
+                exists = true;
+                break;
+            }
+        }
+        return exists;
+    }
+
     // Feature for Registering Menu
     static void registerMenu() {
 
         // Username and Password
-        for (int i = 0; i < ACCOUNTS.length; i++) {
+        System.out.println("+-----------------------------+");
+        System.out.println("Enter your username ");
+        System.out.print("--> ");
+        USERNAME[counterAccount] = sc.nextLine();
+
+        while (isUsernameExist(USERNAME[counterAccount])) {
+            clearTerminal();
             System.out.println("+-----------------------------+");
-            System.out.println("Enter the " + ACCOUNTS[i]);
+            System.out.println("Username already exists, try again");
+            System.out.println("+-----------------------------+");
+            System.out.println("Enter your username ");
             System.out.print("--> ");
-            ACCOUNT_PICKER[i][counterAccount] = sc.nextLine();
+            USERNAME[counterAccount] = sc.nextLine();
         }
+
+        System.out.println("+-----------------------------+");
+        System.out.println("Enter your password ");
+        System.out.print("--> ");
+        PASSWORD[counterAccount] = sc.nextLine();
 
         clearTerminal();
 
