@@ -203,6 +203,7 @@ public class Main {
     private static String choiceEdit, choiceTrash, choiceLocation, choiceProfile;
     private static int noUser = 0;
     private static int inorganic = 0, organic = 0;
+    private static int pointTemp = 0;
 
     public static void main(String[] args) {
         do {
@@ -541,11 +542,12 @@ public class Main {
                                 sc.nextLine();
 
                                 clearTerminal();
+                                
 
                                 WEIGHT_HISTORY[noUser] += weightTrash;
                                 AddHistory(choice2, chooseTrash, quantity);
-                                POINTS[noUser] += pointCalculate(choice) * quantity;
-
+                                pointTemp += pointCalculate(choice) * quantity;
+                                
                                 totalTrash += weightTrash * PRICE_PICKER[choice2][chooseTrash];
                                 shipping = DISTANCE[checkDistance(noUser)] * 1000;
                                 discount += quantity * VALUE_PICKER[choice2][chooseTrash];
@@ -575,7 +577,9 @@ public class Main {
                                 choice4 = sc.nextLine();
                             }
                             // BILL
-                            printBill(choice4);
+                            printBill(choice4, pointTemp);
+
+                            POINTS[noUser] += pointTemp;
 
                             break;
 
@@ -1184,7 +1188,7 @@ public class Main {
     }
 
     // Feature Bill
-    static void printBill(String input) {
+    static void printBill(String input, int point) {
         clearTerminal();
         System.out.println("+----------------------------------+");
         System.out.println("  Name        : " + DATA[1][noUser]);
@@ -1192,6 +1196,7 @@ public class Main {
         System.out.println("  Phone       : " + DATA[3][noUser]);
         System.out.println("+----------------------------------+");
         System.out.println("  Distance     : " + DISTANCE[checkDistance(noUser)] + " KM");
+        System.out.println("  Point earned : "+point);
         if (input.equals("yes")) {
             System.out.println("+----------------------------------+");
             System.out.println("  Price        : Free ");
